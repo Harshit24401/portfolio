@@ -1,4 +1,5 @@
 import { getPoems } from '@/lib/content';
+import { SpotifyCard } from '@/components/SpotifyCard';
 import { ArrowRight } from '@/components/ui/icons';
 
 export async function OffTheClock() {
@@ -48,11 +49,7 @@ export async function OffTheClock() {
           <strong className="font-semibold text-ink">Core member</strong> of GDSC Thapar for a year: five campus tech
           events, 1,000+ people through the door.
         </p>
-        {/* Replaced by the live <SpotifyCard /> in Task 14. */}
-        <div className="flex flex-col gap-4 rounded-md border border-rule bg-surface p-6">
-          <span className="text-[15px] font-semibold text-ink">Spotify</span>
-          <span>[Now playing — live in Task 14]</span>
-        </div>
+        <SpotifyCard />
       </div>
     </section>
   );
