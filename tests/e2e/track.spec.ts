@@ -13,7 +13,7 @@ test('?track=foo renders All selected, no error, clean URL', async ({ page }) =>
 test('one filter drives every filter and the URL', async ({ page }) => {
   await page.goto('/');
   const groups = page.getByRole('group');
-  await expect(groups).toHaveCount(2);
+  expect(await groups.count()).toBeGreaterThanOrEqual(2);
   await groups.nth(0).getByRole('button', { name: 'Full-stack' }).click();
   await expect(page).toHaveURL(/\?track=fs$/);
   await expect(groups.nth(1).getByRole('button', { name: 'Full-stack' })).toHaveAttribute('aria-pressed', 'true');

@@ -1,20 +1,34 @@
+import { Experience } from '@/components/sections/Experience';
+import { Header } from '@/components/sections/Header';
+import { Hero } from '@/components/sections/Hero';
+import { Marquee } from '@/components/sections/Marquee';
 import { TrackFilter } from '@/components/track/TrackFilter';
 import { TrackProvider } from '@/components/track/TrackProvider';
 
-// Placeholder home. Task 4 replaces this with the real sections;
-// the two filters are here so Task 3's shared-state test has something to drive.
+const wrap = 'mx-auto max-w-[1200px] px-[clamp(16px,4vw,48px)]';
+
 export default function Home() {
   return (
     <TrackProvider>
-      <main className="mx-auto max-w-[1200px] px-4 py-24 sm:px-8">
-        <h1 className="font-serif text-6xl tracking-tight">Harshit Arora</h1>
-        <p className="mt-4 text-muted">
-          Full-stack &amp; <em className="font-serif text-accent">AI/ML</em> engineer. Site under construction.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-6">
-          <TrackFilter label="Filter work by track" />
-          <TrackFilter label="Filter skills by track" />
+      {/* Hero wrapper: Task 10's loader and Task 11's flow-field sit inside it. */}
+      <div className="relative isolate">
+        <div className={wrap}>
+          <Header />
+          <Hero />
         </div>
+        <Marquee />
+      </div>
+      <main className={wrap}>
+        <Experience />
+        {/* Stubs: replaced by the real sections in Tasks 5 and 6. */}
+        <section id="work" className="pt-24">
+          <TrackFilter label="Filter work by track" />
+        </section>
+        <section id="writing" />
+        <section id="resume" className="pt-24">
+          <TrackFilter label="Résumé version" />
+        </section>
+        <footer id="contact" className="pb-24" />
       </main>
     </TrackProvider>
   );
