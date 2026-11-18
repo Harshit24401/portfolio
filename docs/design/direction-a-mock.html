@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction A — Editorial in colour</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:var(--ink);text-underline-offset:5px;text-decoration-thickness:1px}a:hover{color:var(--accent)}
+::selection{background:var(--accent);color:var(--on-accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* hero entrance: lines rise out of a mask */
+.rise{display:block;overflow:hidden;padding-bottom:0.08em;margin-bottom:-0.08em}
+.rise>span{display:inline-block;animation:rise 1000ms cubic-bezier(0.16,1,0.3,1) both}
+@keyframes rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
+.ink{position:relative;white-space:nowrap}
+.ink::after{content:"";position:absolute;left:0;right:0;bottom:0.06em;height:0.06em;background:var(--accent);transform:scaleX(0);transform-origin:left;animation:draw 900ms cubic-bezier(0.16,1,0.3,1) 2450ms both}
+@keyframes draw{to{transform:scaleX(1)}}
+.focus-in{animation:focusin 800ms cubic-bezier(0.16,1,0.3,1) both}
+@keyframes focusin{from{opacity:0;filter:blur(8px);transform:translateY(8px)}to{opacity:1;filter:blur(0);transform:none}}
+
+/* availability */
+.live{position:relative;width:8px;height:8px;border-radius:50%;background:#2F7D4F;flex:none}
+.live::after{content:"";position:absolute;inset:0;border-radius:50%;background:#2F7D4F;animation:pulse 2.4s cubic-bezier(0.16,1,0.3,1) infinite}
+@keyframes pulse{from{transform:scale(1);opacity:0.55}to{transform:scale(2.8);opacity:0}}
+
+/* buttons */
+.btn{transition:background-color 200ms ease,color 200ms ease,transform 120ms ease,box-shadow 300ms ease}
+.btn:active{transform:scale(0.98)}
+.btn-solid{transition:background-color 200ms ease,color 200ms ease,box-shadow 300ms ease,transform 380ms cubic-bezier(0.16,1,0.3,1)}
+.btn-solid:hover{background:var(--accent);color:var(--on-accent);box-shadow:0 12px 26px -14px rgba(0,0,0,0.35)}
+.btn-line:hover{background:var(--ink);color:var(--solid)}
+
+/* track filter */
+.pill-ind{transition:transform 500ms cubic-bezier(0.16,1,0.3,1)}
+.pill{transition:color 250ms ease}
+
+/* cards */
+.card{transition:opacity 450ms cubic-bezier(0.16,1,0.3,1),filter 450ms ease,transform 450ms cubic-bezier(0.16,1,0.3,1),border-color 200ms ease,box-shadow 400ms ease}
+.card:hover{border-color:var(--ink);box-shadow:0 24px 46px -30px rgba(0,0,0,0.4);transform:translateY(-3px)}
+.card.is-dim{opacity:0.28;filter:grayscale(1) blur(1.5px);transform:scale(0.985);pointer-events:none}
+.go svg{transition:transform 300ms cubic-bezier(0.16,1,0.3,1)}
+.card:hover .go svg,.go:hover svg{transform:translateX(5px)}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:3px 10px;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);font-weight:500}
+.chip i{width:7px;height:7px;border-radius:50%;display:block}
+
+/* recognition */
+.award{transition:transform 400ms cubic-bezier(0.16,1,0.3,1),border-color 200ms ease}
+.award:hover{transform:translateY(-3px);border-color:var(--ink)}
+.rank{display:inline-block;transition:color 250ms ease}
+.award:hover .rank{color:var(--accent)}
+@supports (animation-timeline: view()){
+.rank{animation:rankin linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+@keyframes rankin{from{clip-path:inset(0 0 100% 0);transform:translateY(24%)}to{clip-path:inset(0 0 0 0);transform:none}}
+}
+
+/* EagleEye: the agent's path, on a 6s loop */
+.n1{animation:lit1 6s cubic-bezier(0.16,1,0.3,1) infinite}
+.n2,.n3{animation:lit2 6s cubic-bezier(0.16,1,0.3,1) infinite}
+.n3{animation-delay:120ms}
+@keyframes lit1{0%,2%{border-color:var(--rule);box-shadow:none}5%,16%{border-color:var(--ink);box-shadow:0 8px 20px -10px rgba(0,0,0,0.35)}24%,100%{border-color:var(--rule);box-shadow:none}}
+@keyframes lit2{0%,27%{border-color:var(--rule);box-shadow:none}31%,44%{border-color:var(--ink);box-shadow:0 8px 20px -10px rgba(0,0,0,0.35)}52%,100%{border-color:var(--rule);box-shadow:none}}
+.wire{position:relative;height:28px;margin-left:24px;border-left:1px solid var(--rule-strong)}
+.sig{position:absolute;left:-4px;top:0;width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:0}
+.sig1{animation:sig1 6s linear infinite}
+.sig2{animation:sig2 6s linear infinite}
+@keyframes sig1{0%,15%{transform:translateY(-4px);opacity:0}17%{opacity:1}26%{transform:translateY(24px);opacity:1}28%,100%{transform:translateY(24px);opacity:0}}
+@keyframes sig2{0%,42%{transform:translateY(-4px);opacity:0}44%{opacity:1}53%{transform:translateY(24px);opacity:1}55%,100%{transform:translateY(24px);opacity:0}}
+.verdict-fill{animation:verdict 6s cubic-bezier(0.16,1,0.3,1) infinite}
+@keyframes verdict{0%,54%{clip-path:inset(0 100% 0 0)}66%,92%{clip-path:inset(0 0 0 0)}99%,100%{clip-path:inset(0 0 0 100%)}}
+
+/* poem: lines ink in as they scroll into view (static where unsupported) */
+@supports (animation-timeline: view()){
+.poemline{animation:inkline linear both;animation-timeline:view();animation-range:entry 20% cover 45%}
+@keyframes inkline{from{clip-path:inset(0 100% 0 0);opacity:0.2}to{clip-path:inset(0 0 0 0);opacity:1}}
+}
+
+/* living background: ink flow field in the hero, grain over the page */
+.field{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent);mask-image:linear-gradient(to bottom,#000 72%,transparent)}
+.grain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;mix-blend-mode:multiply;opacity:0.5}
+.progress{display:none}
+@supports (animation-timeline: scroll()){
+.progress{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--accent);transform-origin:left;z-index:60;animation:grow linear both;animation-timeline:scroll(root)}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+
+/* landing: name rises, a line fills with a 000-100 count, then the curtain lifts off the hero */
+.intro{position:absolute;inset:0;z-index:5;background:var(--solid);display:flex;align-items:center;padding:0 clamp(16px,4vw,48px);box-sizing:border-box;clip-path:inset(0 0 0 0);transition:clip-path 950ms cubic-bezier(0.76,0,0.24,1)}
+.intro.is-out{clip-path:inset(0 0 100% 0)}
+.intro.is-gone{display:none}
+.intro-inner{width:100%;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.intro-name{font-family:Newsreader,Georgia,serif;font-size:clamp(52px,8vw,120px);line-height:1;letter-spacing:-0.03em}
+.intro-row{display:flex;align-items:center;gap:24px}
+.intro-line{position:relative;flex:1;height:1px;background:var(--rule);overflow:hidden}
+.intro-line i{position:absolute;inset:0;background:var(--accent);transform-origin:left}
+.intro-count{font:500 14px 'JetBrains Mono',monospace;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* project links */
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.lnk{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;transition:border-color 200ms ease,color 200ms ease,background-color 200ms ease}
+.lnk:hover{border-color:var(--accent);color:var(--accent)}
+.lnk svg{transition:transform 300ms cubic-bezier(0.16,1,0.3,1)}
+.lnk:hover svg{transform:translate(2px,-2px)}
+.lnk.lnk-main{background:var(--ink);border-color:var(--ink);color:var(--solid)}
+.lnk.lnk-main:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.lnk.lnk-main:hover svg{transform:translateX(3px)}
+
+/* in the works: milestone track */
+.steps{display:flex;flex-wrap:wrap;gap:10px 0;margin:0;padding:0;list-style:none;font-size:13px}
+.steps li{display:flex;align-items:center;gap:8px;padding-right:16px;color:var(--muted)}
+.steps li::before{content:"";width:8px;height:8px;border-radius:50%;border:1px solid var(--rule-strong);flex:none}
+.steps li.done{color:var(--ink)}
+.steps li.done::before{background:var(--ink);border-color:var(--ink)}
+.steps li.now{color:var(--accent);font-weight:500}
+.steps li.now::before{background:var(--accent);border-color:var(--accent);animation:nowring 2.2s cubic-bezier(0.16,1,0.3,1) infinite}
+@keyframes nowring{from{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent)}to{box-shadow:0 0 0 9px transparent}}
+.status{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);font-weight:500}
+
+/* contact */
+.mail{display:inline-flex;align-items:center;gap:12px;font-size:clamp(19px,1.8vw,23px);color:var(--ink);text-decoration:none;padding-bottom:6px;border-bottom:1px solid var(--rule-strong);overflow-wrap:anywhere;transition:color 200ms ease,border-color 200ms ease}
+.mail:hover{color:var(--accent);border-color:var(--accent)}
+.mail svg{flex:none;transition:transform 300ms cubic-bezier(0.16,1,0.3,1)}
+.mail:hover svg{transform:translateX(4px)}
+
+/* custom cursor: dot, lagging ring, accent spark trail (fine pointers only, added by JS) */
+.cur{display:none}
+.has-cursor,.has-cursor a,.has-cursor button{cursor:none}
+.has-cursor .cur{display:block}
+.cur-dot,.cur-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:80;border-radius:50%}
+.cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--ink)}
+.cur-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid var(--ink);opacity:0.5;box-sizing:border-box;transition:width 320ms cubic-bezier(0.16,1,0.3,1),height 320ms cubic-bezier(0.16,1,0.3,1),margin 320ms cubic-bezier(0.16,1,0.3,1),background-color 300ms ease,border-color 300ms ease,opacity 300ms ease}
+.cur-ring.is-big{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, transparent);opacity:1}
+.cur-ring.is-down{width:22px;height:22px;margin:-11px 0 0 -11px;opacity:1}
+.cur-trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:79}
+
+/* headline words: a two-colour slice glitch on hover, and on one random word every few seconds */
+.gw{position:relative;display:inline-block}
+.gw::before,.gw::after{content:attr(data-w);position:absolute;left:0;top:0;opacity:0;pointer-events:none;white-space:nowrap}
+.gw::before{color:var(--accent)}
+.gw::after{color:var(--muted)}
+.gw:hover::before,.gw.glitch::before{animation:gl1 420ms steps(1) both}
+.gw:hover::after,.gw.glitch::after{animation:gl2 420ms steps(1) both}
+.gw:hover,.gw.glitch{animation:glshake 420ms steps(1) both}
+@keyframes gl1{0%{opacity:1;transform:translate(-4px,0);clip-path:inset(12% 0 58% 0)}25%{transform:translate(3px,0);clip-path:inset(62% 0 10% 0)}50%{transform:translate(-2px,0);clip-path:inset(34% 0 42% 0)}75%{transform:translate(4px,0);clip-path:inset(78% 0 4% 0)}100%{opacity:0}}
+@keyframes gl2{0%{opacity:1;transform:translate(4px,0);clip-path:inset(64% 0 6% 0)}25%{transform:translate(-3px,0);clip-path:inset(8% 0 70% 0)}50%{transform:translate(2px,0);clip-path:inset(48% 0 30% 0)}75%{transform:translate(-4px,0);clip-path:inset(20% 0 64% 0)}100%{opacity:0}}
+@keyframes glshake{0%,100%{transform:none}25%{transform:translateX(1px)}50%{transform:translateX(-1px) skewX(-4deg)}75%{transform:translateX(1px)}}
+
+/* marquee under the hero */
+.marquee{position:relative;z-index:1;overflow:hidden;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.marquee-track{display:flex;width:max-content;animation:marquee 52s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.mq{display:flex;align-items:center;flex:none}
+.mq span{padding:18px 26px;font-family:Newsreader,Georgia,serif;font-style:italic;font-size:22px;color:var(--muted);white-space:nowrap;transition:color 200ms ease}
+.mq span:hover{color:var(--ink)}
+.mq i{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+
+/* scroll reveal for new blocks */
+@supports (animation-timeline: view()){
+.reveal{animation:revealup linear both;animation-timeline:view();animation-range:entry 0% cover 20%}
+@keyframes revealup{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+}
+
+/* experience rows: an accent rule draws across the top on hover */
+.job{position:relative;display:grid;grid-template-columns:minmax(150px,200px) minmax(0,1fr) minmax(0,1.35fr);gap:14px 48px;padding:36px 0;border-top:1px solid var(--rule)}
+.job::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 700ms cubic-bezier(0.16,1,0.3,1)}
+.job:hover::before{transform:scaleX(1)}
+.job h3{transition:color 250ms ease}
+.job:hover h3{color:var(--accent)}
+@media (max-width:860px){.job{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:4px 10px;border:1px solid var(--rule);border-radius:4px;font:12px 'JetBrains Mono',monospace;color:var(--muted);transition:border-color 200ms ease,color 200ms ease}
+.tag:hover{border-color:var(--accent);color:var(--ink)}
+
+/* skills: rows slide on hover; rows outside the chosen track fade back */
+.skill{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--rule);transition:padding-left 300ms cubic-bezier(0.16,1,0.3,1),color 200ms ease,opacity 400ms ease}
+.skill:hover{padding-left:10px;color:var(--accent)}
+.skill.is-off{opacity:0.3}
+.skill small{font:12px 'JetBrains Mono',monospace;color:var(--muted);text-align:right}
+
+/* live stats */
+.panel{min-width:0;padding:clamp(24px,3vw,32px);background:var(--surface);border:1px solid var(--rule);border-radius:6px;display:flex;flex-direction:column;gap:22px;transition:border-color 200ms ease}
+.panel:hover{border-color:var(--rule-strong)}
+.num{font-family:Newsreader,Georgia,serif;font-size:clamp(48px,5vw,64px);line-height:1;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+.lbl{font-size:13px;color:var(--muted)}
+.eq{display:flex;gap:3px;align-items:flex-end;height:16px}
+.eq i{width:3px;height:100%;background:var(--accent);transform-origin:bottom;animation:eq 900ms ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:-300ms}.eq i:nth-child(3){animation-delay:-600ms}.eq i:nth-child(4){animation-delay:-150ms}
+@keyframes eq{from{transform:scaleY(0.2)}to{transform:scaleY(1)}}
+.track-row{display:flex;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--rule);transition:padding-left 300ms cubic-bezier(0.16,1,0.3,1)}
+.track-row:hover{padding-left:8px}
+
+@media (prefers-reduced-motion: reduce){
+.marquee-track,.eq i,.steps li.now::before{animation:none}
+.gw:hover,.gw:hover::before,.gw:hover::after{animation:none}
+@supports (animation-timeline: view()){.reveal{animation:none}}
+.job::before,.skill,.track-row{transition:none}
+.btn-solid{transform:none !important}
+.progress{display:none}
+.rise>span,.ink::after{animation:none}
+.intro{display:none}
+.ink::after{transform:scaleX(1)}
+.focus-in{animation:fadeonly 300ms ease both;animation-delay:0ms !important}
+@keyframes fadeonly{from{opacity:0}to{opacity:1}}
+.live::after,.n1,.n2,.n3,.sig1,.sig2,.verdict-fill{animation:none}
+.verdict-fill{clip-path:inset(0 0 0 0)}
+.card,.card:hover,.card.is-dim,.pill-ind{transform:none;transition:opacity 200ms ease,border-color 200ms ease}
+.go svg{transition:none}
+@supports (animation-timeline: view()){.poemline,.rank{animation:none}}
+.award,.award:hover{transform:none}
+}
+</style>
+</helmet>
+<div ref="{{setRoot}}" style="--accent: {{t.accent}}; --on-accent: {{t.onAccent}}; --ink: {{t.ink}}; --muted: {{t.muted}}; --rule: {{t.rule}}; --rule-strong: {{t.ruleStrong}}; --surface: {{t.surface}}; --surface2: {{t.surface2}}; --solid: {{t.solid}}; position: relative; background: {{t.bg}}; color: var(--ink); font-family: Inter, system-ui, sans-serif; font-size: 17px; line-height: 1.6; min-height: 100vh">
+<canvas class="grain" ref="{{setGrain}}" aria-hidden="true" style="mix-blend-mode: {{t.blend}}"></canvas>
+<div class="progress" aria-hidden="true"></div>
+<canvas class="cur cur-trail" ref="{{setTrail}}" aria-hidden="true"></canvas>
+<div class="cur cur-ring" ref="{{setRing}}" aria-hidden="true"></div>
+<div class="cur cur-dot" ref="{{setDot}}" aria-hidden="true"></div>
+<div style="position: relative; isolation: isolate">
+<div class="{{introCls}}" aria-hidden="true">
+<div class="intro-inner">
+<div class="intro-name"><span class="rise"><span style="animation-delay: 60ms">Harshit Arora</span></span></div>
+<div class="intro-row"><span class="intro-line"><i style="{{introBar}}"></i></span><span class="intro-count">{{introCount}}</span></div>
+</div>
+</div>
+<canvas class="field" ref="{{setField}}" aria-hidden="true"></canvas>
+<div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px)">
+
+<header class="focus-in" style="animation-delay: 1700ms; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--rule)">
+<a href="#top" style="font-family: Newsreader, Georgia, serif; font-size: 22px; color: var(--ink); text-decoration: none">Harshit Arora</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px 28px; font-size: 15px">
+<a href="#experience" style="color: var(--muted); text-decoration: none; padding: 12px 0">Experience</a>
+<a href="#work" style="color: var(--muted); text-decoration: none; padding: 12px 0">Work</a>
+<a href="#writing" style="color: var(--muted); text-decoration: none; padding: 12px 0">Writing</a>
+<a href="#resume" style="color: var(--muted); text-decoration: none; padding: 12px 0">Résumé</a>
+<a href="#contact" style="color: var(--muted); text-decoration: none; padding: 12px 0">Contact</a>
+</nav>
+</header>
+
+<section id="top" style="padding: clamp(56px, 9vw, 112px) 0 clamp(64px, 9vw, 112px); display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: end">
+<div style="flex: 3 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 32px">
+<h1 ref="{{setHead}}" style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(46px, 6.4vw, 92px); line-height: 1.02; letter-spacing: -0.025em">
+<span class="rise"><span style="animation-delay: 1380ms">I <span class="gw" data-w="build">build</span> <span class="gw" data-w="products">products</span></span></span>
+<span class="rise"><span style="animation-delay: 1470ms"><span class="gw" data-w="end">end</span> to <span class="gw" data-w="end">end</span> —</span></span>
+<span class="rise"><span style="animation-delay: 1560ms; font-style: italic; color: var(--accent)">from the <span class="gw" data-w="model">model</span></span></span>
+<span class="rise"><span style="animation-delay: 1650ms; font-style: italic; color: var(--accent)">to <span class="ink">the <span class="gw" data-w="button.">button.</span></span></span></span>
+</h1>
+<p class="focus-in" style="animation-delay: 1900ms; margin: 0; max-width: 56ch; font-size: clamp(17px, 1.5vw, 20px); color: var(--muted)">Full-stack and AI/ML engineer in my final year of Computer Engineering at Thapar Institute. Most recently at Optum, where I built EagleEye, a LangGraph agent that reviews change requests before they ship, and took 1st in India &amp; Ireland at the interns' Shark Tank.</p>
+<div class="focus-in" style="animation-delay: 2060ms; display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center">
+<a href="#resume" class="btn btn-solid" onMouseMove="{{magnetMove}}" onMouseLeave="{{magnetLeave}}" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 24px; background: var(--ink); color: var(--solid); text-decoration: none; font-weight: 500; border-radius: 999px; {{magnet}}">Download résumé <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v9M4 8l4 4 4-4"></path></svg></a>
+<a href="#contact" class="btn btn-line" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font-weight: 500; border-radius: 999px">Email me</a>
+<span style="display: inline-flex; align-items: center; gap: 12px; font-size: 15px; color: var(--muted); padding-left: 6px"><span class="live" aria-hidden="true"></span>Open to 6-month internships, Jan–Jun 2027</span>
+</div>
+</div>
+</section>
+</div>
+<div class="marquee" aria-label="Open to 6-month internships, Jan–Jun 2027. Full-stack and AI/ML.">
+<div class="marquee-track" aria-hidden="true">
+<div class="mq"><span>Open to 6-month internships, Jan–Jun 2027</span><i></i><span>Full-stack</span><i></i><span>AI / ML</span><i></i><span>1st in India &amp; Ireland, Optum Shark Tank</span><i></i><span>Computer Engineering, Thapar ’27</span><i></i><span>LangGraph · FastAPI · WebRTC · ONNX</span><i></i><span>Patiala, Punjab</span><i></i></div>
+<div class="mq"><span>Open to 6-month internships, Jan–Jun 2027</span><i></i><span>Full-stack</span><i></i><span>AI / ML</span><i></i><span>1st in India &amp; Ireland, Optum Shark Tank</span><i></i><span>Computer Engineering, Thapar ’27</span><i></i><span>LangGraph · FastAPI · WebRTC · ONNX</span><i></i><span>Patiala, Punjab</span><i></i></div>
+</div>
+</div>
+</div>
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px)">
+
+<section id="experience" aria-labelledby="experience-title" style="padding: clamp(56px, 8vw, 96px) 0 0; display: flex; flex-direction: column; gap: 28px">
+<h2 id="experience-title" style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -0.015em; line-height: 1.1">Experience</h2>
+<div>
+<article class="job reveal">
+<div style="display: flex; flex-direction: column; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted)"><span>Jun – Aug 2026</span><span>Hyderabad</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 36px); line-height: 1.1">Optum</h3>
+<span style="color: var(--muted)">Technology Development Program Intern · UnitedHealth Group</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px">
+<li>Built EagleEye, a LangGraph agent that checks each change request against its Rally user stories and GitHub checks before approval.</li>
+<li>Built monitoring pipelines that compare live metrics with baseline data, cutting the manual checks after each release.</li>
+</ul>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><span class="tag">LangGraph</span><span class="tag">Python</span><span class="tag">Rally</span><span class="tag">GitHub</span><span class="tag">Monitoring</span></div>
+</div>
+</article>
+<article class="job reveal">
+<div style="display: flex; flex-direction: column; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted)"><span>Jul – Nov 2025</span><span>Remote</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 36px); line-height: 1.1">CoE-DSAI, Thapar</h3>
+<span style="color: var(--muted)">AI/ML Engineering Intern · Centre of Excellence in Data Science &amp; AI</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px">
+<li>Served glass-property prediction models as FastAPI microservices on Docker Compose, with sub-100ms inference.</li>
+<li>Automated deployments on Linux and Azure, and sorted out networking and CORS so builds ran the same on any machine.</li>
+</ul>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><span class="tag">FastAPI</span><span class="tag">Docker Compose</span><span class="tag">Azure</span><span class="tag">Linux</span></div>
+</div>
+</article>
+</div>
+</section>
+
+<section id="work" style="margin-top: clamp(72px, 9vw, 120px); padding: clamp(40px, 6vw, 72px) 0 0; border-top: 1px solid var(--ink); display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: end">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -0.015em; line-height: 1.1">Selected work</h2>
+<div role="group" aria-label="Filter by track" style="position: relative; display: flex; padding: 4px; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface)">
+<span class="pill-ind" aria-hidden="true" style="position: absolute; left: 4px; top: 4px; width: 116px; height: 44px; border-radius: 999px; background: var(--ink); {{indicator}}"></span>
+<sc-for list="{{pills}}" as="p" hint-placeholder-count="3">
+<button type="button" class="pill" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}" style="position: relative; width: 116px; min-height: 44px; border: 0; border-radius: 999px; background: transparent; color: {{p.color}}; font: 500 14px Inter, sans-serif; cursor: pointer">{{p.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<article class="{{eagleClass}}" style="display: flex; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px">
+<div style="flex: 1 1 420px; min-width: 0; padding: clamp(24px, 4vw, 48px); display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; gap: 12px; align-items: center; font-size: 13px"><span style="color: var(--muted)">Optum · 2026</span><span class="chip"><i style="background: var(--accent)"></i>AI / ML</span></div>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 3.8vw, 52px); line-height: 1.02; letter-spacing: -0.015em">EagleEye</h3>
+<p style="margin: 0; font-size: 19px; color: var(--muted); max-width: 44ch">A LangGraph agent that checks each change request against its user stories and GitHub checks before approval.</p>
+<dl style="margin: 0; display: grid; grid-template-columns: 76px 1fr; gap: 10px 20px; font-size: 15px">
+<dt style="color: var(--muted)">Built</dt><dd style="margin: 0">An agent graph over Rally and GitHub that hands the reviewer a verdict with its reasons.</dd>
+<dt style="color: var(--muted)">Aim</dt><dd style="margin: 0">Catch about 60 post-deployment defects, 120 engineer-hours, a year.</dd>
+</dl>
+<div class="links" style="align-items: center">
+<a href="#work" class="lnk lnk-main">Read the case study <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+<span style="font-size: 13px; color: var(--muted); padding-left: 6px">Internal to Optum, so the code is private.</span>
+</div>
+</div>
+<figure style="flex: 1 1 380px; min-width: 0; margin: 0; padding: clamp(24px, 4vw, 48px); border-left: 1px solid var(--rule); display: flex; flex-direction: column; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<div class="n1" style="padding: 16px 18px; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface)">change request opened</div>
+<div class="wire" aria-hidden="true"><span class="sig sig1"></span></div>
+<div style="display: flex; gap: 12px">
+<div class="n2" style="flex: 1; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface)">match user stories</div>
+<div class="n3" style="flex: 1; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface)">read GitHub checks</div>
+</div>
+<div class="wire" aria-hidden="true"><span class="sig sig2"></span></div>
+<div style="position: relative; border: 1px solid var(--accent); border-radius: 4px; color: var(--accent)">
+<div style="padding: 16px 18px">verdict + reasons, to the reviewer</div>
+<div class="verdict-fill" aria-hidden="true" style="position: absolute; inset: 0; padding: 16px 18px; background: var(--accent); color: var(--on-accent)">verdict + reasons, to the reviewer</div>
+</div>
+<figcaption style="margin-top: 18px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 15px; color: var(--muted)">One change request, as EagleEye walks it.</figcaption>
+</figure>
+</article>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px">
+<article class="{{faceClass}}" style="padding: 32px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px"><span style="color: var(--muted)">Personal · 2026</span><span class="chip"><i style="background: var(--accent)"></i>AI / ML</span><span class="chip"><i style="background: var(--ink)"></i>Full-stack</span></div>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1.1">face-sort</h3>
+<p style="margin: 0; color: var(--muted)">Groups a photo library by person entirely in the browser. No photo, face or embedding leaves the device.</p>
+<p style="margin: 0; font-size: 14px; color: var(--muted)">TypeScript, ONNX Runtime Web, Web Workers, FastAPI</p>
+<div class="links">
+<a href="#work" class="lnk lnk-main">Case study <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+<a href="#work" class="lnk">Live demo <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a>
+<a href="#work" class="lnk">GitHub <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a>
+</div>
+</article>
+<article class="{{peerClass}}" style="padding: 32px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px"><span style="color: var(--muted)">Personal · 2024–26</span><span class="chip"><i style="background: var(--ink)"></i>Full-stack</span></div>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1.1">PeerCall</h3>
+<p style="margin: 0; color: var(--muted)">Group video calls on full-mesh WebRTC. 80+ tests, and an authorization bug found and fixed.</p>
+<p style="margin: 0; font-size: 14px; color: var(--muted)">React, Node, WebSockets, WebRTC, Supabase</p>
+<div class="links">
+<a href="#work" class="lnk lnk-main">Case study <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+<a href="#work" class="lnk">Live demo <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a>
+<a href="#work" class="lnk">GitHub <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a>
+</div>
+</article>
+</div>
+<a href="#work" class="go" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; font-family: Newsreader, Georgia, serif; font-size: clamp(22px, 2.2vw, 28px)">Everything else is on GitHub <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+</section>
+
+<section id="next" aria-labelledby="next-title" style="margin-top: clamp(88px, 11vw, 144px); display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h2 id="next-title" style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -0.015em; line-height: 1.1">In the works</h2>
+<p style="margin: 0; color: var(--muted); max-width: 56ch">What I'm building right now, and how far along it is.</p>
+</div>
+<article class="{{jobsCls}}" style="display: flex; flex-wrap: wrap; gap: 32px 56px; padding: clamp(24px, 4vw, 44px); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center"><span class="status"><span class="live" aria-hidden="true"></span>Building now</span><span class="chip" style="font-size: 13px"><i style="background: var(--accent)"></i>AI / ML</span><span class="chip" style="font-size: 13px"><i style="background: var(--ink)"></i>Full-stack</span></div>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.2vw, 44px); line-height: 1.05">Job-hunt autopilot</h3>
+<p style="margin: 0; color: var(--muted); max-width: 54ch">Collects listings, ranks them with BM25, embeddings and rank fusion, and has a local LLM judge the fit. Then it drafts a recruiter email that sends only after I approve it.</p>
+<p style="margin: 0; font-size: 14px; color: var(--muted)">Python, Supabase + pgvector, Ollama, FastAPI</p>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 22px; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; color: var(--muted)">Where it stands</span>
+<ol class="steps"><li class="done">Collect</li><li class="done">Rank</li><li class="done">Assess</li><li class="done">Draft &amp; send</li><li class="now">Read replies</li><li>Follow-ups</li><li>Daily schedule</li></ol>
+</div>
+<div class="links"><a href="#next" class="lnk">Follow on GitHub <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a></div>
+</div>
+</article>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
+<article class="{{siteCls}}" style="padding: 32px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center"><span class="status"><span class="live" aria-hidden="true"></span>Building now</span><span class="chip" style="font-size: 13px"><i style="background: var(--ink)"></i>Full-stack</span></div>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.1">This site</h3>
+<p style="margin: 0; color: var(--muted)">Next.js, TypeScript and MDX, with the ink flow-field up top. Designed in the open, then built from the design doc.</p>
+<ol class="steps"><li class="done">Design</li><li class="now">Build</li><li>Ship</li></ol>
+<div class="links"><a href="#next" class="lnk">Source <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a></div>
+</article>
+<article class="card" style="padding: 32px; border: 1px dashed var(--rule-strong); border-radius: 6px; display: flex; flex-direction: column; gap: 16px">
+<span class="status" style="color: var(--muted)"><span style="width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--rule-strong)" aria-hidden="true"></span>Up next</span>
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.1">[Next project]</h3>
+<p style="margin: 0; color: var(--muted)">[One line on what it will do, and for whom.]</p>
+<ol class="steps"><li>Scope</li><li>Prototype</li><li>Ship</li></ol>
+</article>
+</div>
+</section>
+
+<section id="recognition" aria-labelledby="recognition-title" style="margin-top: clamp(88px, 11vw, 144px); display: flex; flex-direction: column; gap: 28px">
+<h2 id="recognition-title" style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -0.015em; line-height: 1.1">Recognition</h2>
+<article class="award" style="display: flex; flex-wrap: wrap; gap: 24px 56px; align-items: end; padding: clamp(28px, 4vw, 48px); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px">
+<div style="flex: 0 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(88px, 12vw, 168px); line-height: 0.85; letter-spacing: -0.04em; color: var(--accent)">1st</span>
+<span style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: clamp(22px, 2.4vw, 32px); color: var(--muted)">and 2nd globally</span>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.15">Optum TDP Shark Tank</h3>
+<p style="margin: 0; color: var(--muted); max-width: 52ch">First place in India and Ireland, and second globally, among all of Optum's Technology Development Program interns. 2026.</p>
+</div>
+</article>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 16px">
+<div class="award" style="padding: 28px; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 196px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(34px, 2.9vw, 42px); line-height: 1; letter-spacing: -0.03em; overflow-wrap: anywhere">Selected</span>
+<span style="font-weight: 500">Smart India Hackathon</span>
+<span style="margin-top: auto; font-size: 14px; color: var(--muted)">From 300+ teams, AI track · 2024</span>
+</div>
+<div class="award" style="padding: 28px; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 196px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(34px, 2.9vw, 42px); line-height: 1; letter-spacing: -0.03em; overflow-wrap: anywhere">2nd</span>
+<span style="font-weight: 500">OWASP TIET Hackathon</span>
+<span style="margin-top: auto; font-size: 14px; color: var(--muted)">Internal hackathon, Thapar · 2024</span>
+</div>
+<div class="award" style="padding: 28px; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 196px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(34px, 2.9vw, 42px); line-height: 1; letter-spacing: -0.03em; overflow-wrap: anywhere">Finalist</span>
+<span style="font-weight: 500">Makeathon 6.0</span>
+<span style="margin-top: auto; font-size: 14px; color: var(--muted)">Among 100+ teams · 2024</span>
+</div>
+<div class="award" style="padding: 28px; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 196px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(34px, 2.9vw, 42px); line-height: 1; letter-spacing: -0.03em; overflow-wrap: anywhere">1st</span>
+<span style="font-weight: 500">Literary Feud</span>
+<span style="margin-top: auto; font-size: 14px; color: var(--muted)">Inter-college quiz · 2024</span>
+</div>
+<div class="award" style="padding: 28px; border: 1px solid var(--rule); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 196px">
+<span class="rank" style="font-family: Newsreader, Georgia, serif; font-size: clamp(34px, 2.9vw, 42px); line-height: 1; letter-spacing: -0.03em; overflow-wrap: anywhere">2×</span>
+<span style="font-weight: 500">Merit Scholarship</span>
+<span style="margin-top: auto; font-size: 14px; color: var(--muted)">Two years running · 2023–25</span>
+</div>
+</div>
+</section>
+
+<section id="skills" aria-labelledby="skills-title" style="margin-top: clamp(88px, 11vw, 144px); display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: end">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h2 id="skills-title" style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -0.015em; line-height: 1.1">Toolkit</h2>
+<p style="margin: 0; color: var(--muted); max-width: 52ch">What I reach for, and where I last shipped it. The track filter shows the stack for each role.</p>
+</div>
+<div role="group" aria-label="Filter skills by track" style="position: relative; display: flex; padding: 4px; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface)">
+<span class="pill-ind" aria-hidden="true" style="position: absolute; left: 4px; top: 4px; width: 116px; height: 44px; border-radius: 999px; background: var(--ink); {{indicator}}"></span>
+<sc-for list="{{pills}}" as="p" hint-placeholder-count="3">
+<button type="button" class="pill" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}" style="position: relative; width: 116px; min-height: 44px; border: 0; border-radius: 999px; background: transparent; color: {{p.color}}; font: 500 14px Inter, sans-serif; cursor: pointer">{{p.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 32px 40px">
+<div class="reveal"><h3 style="margin: 0 0 8px; font-size: 15px; font-weight: 600">Languages</h3>
+<sc-for list="{{skLang}}" as="s" hint-placeholder-count="8"><div class="{{s.cls}}"><span>{{s.name}}</span><small>{{s.where}}</small></div></sc-for></div>
+<div class="reveal"><h3 style="margin: 0 0 8px; font-size: 15px; font-weight: 600">Backend &amp; web</h3>
+<sc-for list="{{skWeb}}" as="s" hint-placeholder-count="8"><div class="{{s.cls}}"><span>{{s.name}}</span><small>{{s.where}}</small></div></sc-for></div>
+<div class="reveal"><h3 style="margin: 0 0 8px; font-size: 15px; font-weight: 600">ML &amp; AI</h3>
+<sc-for list="{{skMl}}" as="s" hint-placeholder-count="7"><div class="{{s.cls}}"><span>{{s.name}}</span><small>{{s.where}}</small></div></sc-for></div>
+<div class="reveal"><h3 style="margin: 0 0 8px; font-size: 15px; font-weight: 600">DevOps &amp; tools</h3>
+<sc-for list="{{skOps}}" as="s" hint-placeholder-count="5"><div class="{{s.cls}}"><span>{{s.name}}</span><small>{{s.where}}</small></div></sc-for></div>
+</div>
+</section>
+
+
+<section id="writing" style="margin-top: clamp(88px, 11vw, 144px); padding: clamp(48px, 7vw, 88px) 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 40px 72px">
+<div style="flex: 2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px">Off the clock</h2>
+<blockquote style="margin: 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.28; letter-spacing: -0.01em">
+<span class="poemline" style="display: block">[First line of the poem you'd read aloud first,]</span>
+<span class="poemline" style="display: block">[and the line that answers it.]</span>
+</blockquote>
+<a href="#writing" class="go" style="align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 500">Read [Poem title] and three more <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 20px; font-size: 15px; color: var(--muted)">
+<p style="margin: 0"><strong style="color: var(--ink); font-weight: 600">Joint Secretary</strong> of the Literary Society at Thapar, where I run the budget for every event.</p>
+<p style="margin: 0"><strong style="color: var(--ink); font-weight: 600">Core member</strong> of GDSC Thapar for a year: five campus tech events, 1,000+ people through the door.</p>
+<article class="panel">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h3 style="margin: 0; font-size: 15px; font-weight: 600">Spotify</h3><span style="display: inline-flex; gap: 10px; align-items: center" class="lbl"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Now playing</span></div>
+<div style="display: flex; gap: 16px; align-items: center">
+<div style="width: 72px; height: 72px; flex: none; border-radius: 4px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); text-align: center">[cover]</div>
+<div style="min-width: 0; display: flex; flex-direction: column; gap: 2px"><span style="font-family: Newsreader, Georgia, serif; font-size: 24px; line-height: 1.2">[Track title]</span><span class="lbl">[Artist]</span></div>
+</div>
+<div>
+<div class="track-row"><span class="lbl" style="width: 16px">1</span><span>[On repeat, first]</span></div>
+<div class="track-row"><span class="lbl" style="width: 16px">2</span><span>[On repeat, second]</span></div>
+<div class="track-row"><span class="lbl" style="width: 16px">3</span><span>[On repeat, third]</span></div>
+</div>
+<a href="#writing" class="go" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--accent); font-weight: 500">Open the playlist <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+</article>
+</div>
+</section>
+
+<section id="resume" aria-labelledby="resume-title" class="reveal" style="margin-top: clamp(88px, 11vw, 144px); display: flex; flex-wrap: wrap; gap: 40px 64px; justify-content: space-between; align-items: end">
+<h2 id="resume-title" style="margin: 0; flex: 1 1 420px; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(44px, 6vw, 84px); line-height: 1.02; letter-spacing: -0.025em">One page,<br><span style="font-style: italic; color: var(--accent)">the whole story.</span></h2>
+<div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; color: var(--muted)">Pick the version written for the role you're hiring for.</p>
+<div role="group" aria-label="Résumé version" style="position: relative; align-self: flex-start; display: flex; padding: 4px; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface)">
+<span class="pill-ind" aria-hidden="true" style="position: absolute; left: 4px; top: 4px; width: 116px; height: 44px; border-radius: 999px; background: var(--ink); {{indicator}}"></span>
+<sc-for list="{{pills}}" as="p" hint-placeholder-count="3">
+<button type="button" class="pill" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}" style="position: relative; width: 116px; min-height: 44px; border: 0; border-radius: 999px; background: transparent; color: {{p.color}}; font: 500 14px Inter, sans-serif; cursor: pointer">{{p.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 16px">
+<a href="#resume" class="btn btn-solid" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 24px; background: var(--ink); color: var(--solid); text-decoration: none; font-weight: 500; border-radius: 999px">Download {{resumeName}} PDF <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v9M4 8l4 4 4-4"></path></svg></a>
+<a href="#resume" class="btn btn-line" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 24px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font-weight: 500; border-radius: 999px">View in browser <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"></path></svg></a>
+</div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted)">Updated Nov 2026</span>
+</div>
+</section>
+
+<footer id="contact" style="padding: clamp(64px, 9vw, 112px) 0 48px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.015em">Hiring for full-stack or <span style="font-style: italic; color: var(--accent)">AI/ML?</span></h2>
+<div style="display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center">
+<a href="mailto:harshit24401@gmail.com" class="mail">harshit24401@gmail.com <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+<button type="button" class="lnk" onClick="{{copyMail}}" style="background: transparent; font-family: Inter, sans-serif; cursor: pointer" aria-live="polite">{{copyLabel}}</button>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--rule); font-size: 15px; color: var(--muted)">
+<span>© 2026 Harshit Arora</span>
+<nav aria-label="Elsewhere" style="display: flex; gap: 28px"><a href="#contact" style="color: var(--muted); padding: 12px 0">GitHub</a><a href="#contact" style="color: var(--muted); padding: 12px 0">LinkedIn</a><a href="#resume" style="color: var(--muted); padding: 12px 0">Résumé</a></nav>
+</div>
+</footer>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"palette":{"editor":"enum","default":"night","options":["night","dawn","periwinkle","sage","apricot"]},"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { track: 'all', mx: 0, my: 0, k: 0, ip: 0, intro: 'in', copied: false };
+    this.setField = (el) => { this.field = el; };
+    this.setGrain = (el) => { this.grain = el; };
+    this.setRoot = (el) => { this.root = el; };
+    this.setDot = (el) => { this.dot = el; };
+    this.setRing = (el) => { this.ring = el; };
+    this.setTrail = (el) => { this.trail = el; };
+    this.setHead = (el) => { this.head = el; };
+    this.setStats = (el) => { this.statsEl = el; };
+    this.setHeat = (el) => { this.heat = el; };
+    this.frame = this.frame.bind(this);
+    this.magnetMove = (e) => {
+      if (this.reduce) return;
+      const r = e.currentTarget.getBoundingClientRect();
+      this.setState({ mx: (e.clientX - r.left - r.width / 2) * 0.22, my: (e.clientY - r.top - r.height / 2) * 0.32 });
+    };
+    this.magnetLeave = () => this.setState({ mx: 0, my: 0 });
+  }
+
+  theme() {
+    const themes = {
+      night: {
+        bg: 'radial-gradient(1000px 700px at 85% -10%, #161C26 0%, rgba(22,28,38,0) 62%), #0E0E0E', solid: '#0E0E0E',
+        ink: '#ECEAE6', muted: '#A6A6A8', rule: 'rgba(236,234,230,0.12)', ruleStrong: 'rgba(236,234,230,0.28)',
+        surface: '#141516', surface2: '#1B1C1E', accent: '#9CC2FF', onAccent: '#08111F', blend: 'soft-light'
+      },
+      dawn: {
+        bg: 'linear-gradient(165deg, #C9DBF7 0%, #E4D5F0 48%, #F7D9C8 100%)', solid: '#F4ECF6',
+        ink: '#1B1A33', muted: '#45435F', rule: 'rgba(27,26,51,0.14)', ruleStrong: 'rgba(27,26,51,0.32)',
+        surface: 'rgba(255,255,255,0.46)', surface2: 'rgba(255,255,255,0.4)', accent: '#4636C8', onAccent: '#F6F4FF', blend: 'multiply'
+      },
+      periwinkle: {
+        bg: '#D9DDF6', solid: '#EEF0FC',
+        ink: '#15183A', muted: '#3D4268', rule: '#B6BCE4', ruleStrong: '#8E95C9',
+        surface: '#E5E8FA', surface2: '#C9CFF0', accent: '#B33A14', onAccent: '#FFF6EF', blend: 'multiply'
+      },
+      sage: {
+        bg: '#D5E1CD', solid: '#EEF3EA',
+        ink: '#16241A', muted: '#3A4A3E', rule: '#B1C3A8', ruleStrong: '#8BA182',
+        surface: '#E2EBDC', surface2: '#C6D6BD', accent: '#9A3A12', onAccent: '#FFF5EE', blend: 'multiply'
+      },
+      apricot: {
+        bg: '#F3D7C2', solid: '#FBEFE6',
+        ink: '#2A1712', muted: '#5A3D31', rule: '#DDB79C', ruleStrong: '#C2957A',
+        surface: '#F8E5D6', surface2: '#E9C6AD', accent: '#2342A8', onAccent: '#F2F5FF', blend: 'multiply'
+      }
+    };
+    return themes[this.props.palette] || themes.night;
+  }
+
+  componentDidMount() {
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.drawGrain();
+    this.startField();
+    this.fine = !!(window.matchMedia && window.matchMedia('(pointer: fine)').matches);
+    this.startCursor();
+    this.startSmooth();
+    this.startIntro();
+    this.startGlitch();
+    this.onResize = () => { this.drawGrain(); if (this.ctx) this.sizeField(); if (this.tctx) this.sizeTrail(); };
+    window.addEventListener('resize', this.onResize);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    cancelAnimationFrame(this.raf2);
+    cancelAnimationFrame(this.raf3);
+    cancelAnimationFrame(this.raf4);
+    clearTimeout(this.introT);
+    clearTimeout(this.copyT);
+    clearInterval(this.glitchT);
+    this.running = false;
+    window.removeEventListener('resize', this.onResize);
+    if (this.onCurMove) {
+      window.removeEventListener('pointermove', this.onCurMove);
+      window.removeEventListener('pointerover', this.onCurOver);
+      window.removeEventListener('pointerdown', this.onCurDown);
+      window.removeEventListener('pointerup', this.onCurUp);
+    }
+    if (this.onWheel) {
+      window.removeEventListener('wheel', this.onWheel);
+      window.removeEventListener('scroll', this.onNativeScroll);
+      document.removeEventListener('click', this.onAnchor);
+    }
+    if (this.io2) this.io2.disconnect();
+    if (this.onPointer) window.removeEventListener('pointermove', this.onPointer);
+    if (this.onVis) document.removeEventListener('visibilitychange', this.onVis);
+    if (this.io) this.io.disconnect();
+  }
+
+  // Grain: one 128px noise tile, repeated, multiplied over the page.
+  drawGrain() {
+    const c = this.grain;
+    if (!c) return;
+    c.width = c.clientWidth;
+    c.height = c.clientHeight;
+    const tile = document.createElement('canvas');
+    tile.width = tile.height = 128;
+    const t = tile.getContext('2d');
+    const img = t.createImageData(128, 128);
+    for (let i = 0; i < img.data.length; i += 4) {
+      const v = (Math.random() * 255) | 0;
+      img.data[i] = v; img.data[i + 1] = v; img.data[i + 2] = v;
+      img.data[i + 3] = 14;
+    }
+    t.putImageData(img, 0, 0);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = ctx.createPattern(tile, 'repeat');
+    ctx.fillRect(0, 0, c.width, c.height);
+  }
+
+  // Ink flow field on a transparent canvas, so any ground (solid or gradient) shows through.
+  // Strands are drawn in the theme's ink; near the cursor they switch to the accent and swirl.
+  startField() {
+    const c = this.field;
+    if (!c) return;
+    this.ctx = c.getContext('2d');
+    this.sizeField();
+    const count = Math.round(Math.min(1100, (this.w * this.h) / 1000));
+    this.parts = [];
+    for (let i = 0; i < count; i++) {
+      const p = this.spawn();
+      p.age = Math.random() * p.life;
+      this.parts.push(p);
+    }
+    this.mouse = { x: -9999, y: -9999 };
+    this.onPointer = (e) => {
+      const r = c.getBoundingClientRect();
+      this.mouse.x = e.clientX - r.left;
+      this.mouse.y = e.clientY - r.top;
+    };
+    window.addEventListener('pointermove', this.onPointer, { passive: true });
+    if (this.reduce) {
+      for (let k = 0; k < 180; k++) this.step(k * 16);
+      return;
+    }
+    this.visible = true;
+    if ('IntersectionObserver' in window) {
+      this.io = new IntersectionObserver((entries) => {
+        this.visible = entries[0].isIntersecting;
+        if (this.visible) this.loop();
+      });
+      this.io.observe(c);
+    }
+    this.onVis = () => { if (!document.hidden) this.loop(); };
+    document.addEventListener('visibilitychange', this.onVis);
+    this.loop();
+  }
+
+  sizeField() {
+    const c = this.field;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.w = c.clientWidth;
+    this.h = c.clientHeight;
+    c.width = Math.round(this.w * dpr);
+    c.height = Math.round(this.h * dpr);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.ctx.clearRect(0, 0, this.w, this.h);
+  }
+
+  spawn() {
+    return { x: Math.random() * this.w, y: Math.random() * this.h, age: 0, life: 140 + Math.random() * 260 };
+  }
+
+  loop() {
+    if (this.running || this.reduce) return;
+    this.running = true;
+    const tick = (ts) => {
+      if (!this.visible || document.hidden) { this.running = false; return; }
+      this.step(ts);
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  step(ts) {
+    const ctx = this.ctx, w = this.w, h = this.h, t = ts * 0.00008, m = this.mouse;
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0,0,0,0.075)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'source-over';
+    const th = this.theme();
+    const ink = this.rgb(th.ink), acc = this.rgb(th.accent);
+    ctx.lineWidth = 0.9;
+    ctx.lineCap = 'round';
+    for (const p of this.parts) {
+      const a = Math.sin(p.x * 0.0019 + t) * Math.cos(p.y * 0.0023 - t * 1.3) * Math.PI * 2 + Math.sin((p.x + p.y) * 0.0008 + t * 0.7);
+      let vx = Math.cos(a) * 0.85, vy = Math.sin(a) * 0.85;
+      const dx = p.x - m.x, dy = p.y - m.y, d2 = dx * dx + dy * dy;
+      let stir = 0;
+      if (d2 < 40000) {
+        const d = Math.sqrt(d2) || 1, f = (1 - d / 200) * 2.6;
+        stir = 1 - d / 200;
+        vx += (-dy / d) * f + (dx / d) * f * 0.3;
+        vy += (dx / d) * f + (dy / d) * f * 0.3;
+      }
+      const nx = p.x + vx, ny = p.y + vy;
+      const fade = Math.max(0, Math.min(1, p.age / 30, (p.life - p.age) / 30));
+      const alpha = ((0.035 + 0.24 * Math.pow(p.x / w, 1.4)) + stir * 0.35) * fade;
+      ctx.strokeStyle = 'rgba(' + (stir > 0.15 ? acc : ink) + ',' + Math.min(0.8, alpha).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(nx, ny);
+      ctx.stroke();
+      p.x = nx; p.y = ny; p.age++;
+      if (p.age > p.life || nx < -10 || nx > w + 10 || ny < -10 || ny > h + 10) Object.assign(p, this.spawn());
+    }
+  }
+
+  // One shared rAF for the cursor and smooth scroll. It runs only while something is moving.
+  kick() {
+    if (this.ticking) return;
+    this.ticking = true;
+    this.raf2 = requestAnimationFrame(this.frame);
+  }
+
+  frame() {
+    let busy = false;
+    const c = this.cur;
+    if (c) {
+      c.rx += (c.x - c.rx) * 0.18;
+      c.ry += (c.y - c.ry) * 0.18;
+      this.dot.style.transform = 'translate3d(' + c.x + 'px,' + c.y + 'px,0)';
+      this.ring.style.transform = 'translate3d(' + c.rx.toFixed(1) + 'px,' + c.ry.toFixed(1) + 'px,0)';
+      if (Math.abs(c.x - c.rx) + Math.abs(c.y - c.ry) > 0.3) busy = true;
+      const ctx = this.tctx;
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.fillRect(0, 0, this.tw, this.th);
+      ctx.globalCompositeOperation = 'source-over';
+      const acc = this.rgb(this.theme().accent);
+      for (const p of c.pts) {
+        p.life -= 0.035;
+        if (p.life <= 0) continue;
+        const spread = (1 - p.life) * 12;
+        ctx.fillStyle = 'rgba(' + acc + ',' + (p.life * 0.75).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(p.x + p.jx * spread, p.y + p.jy * spread + (1 - p.life) * 8, 0.5 + 1.4 * p.life, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      c.pts = c.pts.filter((p) => p.life > 0);
+      if (c.pts.length) { busy = true; c.fade = 24; }
+      else if (c.fade > 0) { c.fade--; busy = true; }
+    }
+    const s = this.sm;
+    if (s && s.on) {
+      s.y += (s.t - s.y) * 0.1;
+      if (Math.abs(s.t - s.y) < 0.5) { s.y = s.t; s.on = false; } else busy = true;
+      window.scrollTo(0, s.y);
+    }
+    if (busy) this.raf2 = requestAnimationFrame(this.frame);
+    else this.ticking = false;
+  }
+
+  startCursor() {
+    if (!this.fine || this.reduce || !this.root || !this.dot || !this.ring || !this.trail) return;
+    this.root.classList.add('has-cursor');
+    this.cur = { x: -100, y: -100, rx: -100, ry: -100, pts: [], fade: 0 };
+    this.tctx = this.trail.getContext('2d');
+    this.sizeTrail();
+    this.onCurMove = (e) => {
+      const c = this.cur;
+      c.x = e.clientX; c.y = e.clientY;
+      if (Math.random() < 0.7) c.pts.push({ x: c.x, y: c.y, life: 1, jx: Math.random() - 0.5, jy: Math.random() - 0.5 });
+      if (c.pts.length > 48) c.pts.shift();
+      this.kick();
+    };
+    this.onCurOver = (e) => {
+      const hit = e.target && e.target.closest && e.target.closest('a, button, .card, .award, .panel');
+      this.ring.classList.toggle('is-big', !!hit);
+    };
+    this.onCurDown = () => this.ring.classList.add('is-down');
+    this.onCurUp = () => this.ring.classList.remove('is-down');
+    window.addEventListener('pointermove', this.onCurMove, { passive: true });
+    window.addEventListener('pointerover', this.onCurOver, { passive: true });
+    window.addEventListener('pointerdown', this.onCurDown, { passive: true });
+    window.addEventListener('pointerup', this.onCurUp, { passive: true });
+  }
+
+  sizeTrail() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.tw = this.trail.clientWidth;
+    this.th = this.trail.clientHeight;
+    this.trail.width = Math.round(this.tw * dpr);
+    this.trail.height = Math.round(this.th * dpr);
+    this.tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // Lenis-style smooth scroll: wheel input sets a target, the page eases toward it.
+  // Off for touch, reduced motion, and when the window itself doesn't scroll (as on the canvas).
+  startSmooth() {
+    if (!this.fine || this.reduce) return;
+    const se = document.scrollingElement || document.documentElement;
+    const max = () => se.scrollHeight - window.innerHeight;
+    this.sm = { y: window.scrollY, t: window.scrollY, on: false };
+    const go = (to) => {
+      const s = this.sm;
+      if (!s.on) s.y = window.scrollY;
+      s.t = Math.max(0, Math.min(max(), to));
+      s.on = true;
+      this.kick();
+    };
+    this.onWheel = (e) => {
+      if (e.ctrlKey || max() < 10) return;
+      e.preventDefault();
+      const base = this.sm.on ? this.sm.t : window.scrollY;
+      go(base + e.deltaY * (e.deltaMode === 1 ? 32 : 1));
+    };
+    this.onAnchor = (e) => {
+      const a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || max() < 10) return;
+      const el = document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;
+      e.preventDefault();
+      go(el.getBoundingClientRect().top + window.scrollY - 12);
+    };
+    this.onNativeScroll = () => { if (!this.sm.on) this.sm.y = this.sm.t = window.scrollY; };
+    window.addEventListener('wheel', this.onWheel, { passive: false });
+    window.addEventListener('scroll', this.onNativeScroll, { passive: true });
+    document.addEventListener('click', this.onAnchor);
+  }
+
+  startGlitch() {
+    if (this.reduce || !this.head) return;
+    this.glitchT = setInterval(() => {
+      if (document.hidden) return;
+      const words = this.head.querySelectorAll('.gw');
+      if (!words.length) return;
+      const w = words[(Math.random() * words.length) | 0];
+      w.classList.add('glitch');
+      setTimeout(() => w.classList.remove('glitch'), 440);
+    }, 5200);
+  }
+
+  // Landing: count 000-100 over 1.1s, then lift the curtain. Hero entrances are timed to start under it.
+  startIntro() {
+    if (this.reduce) { this.setState({ ip: 1, intro: 'gone' }); return; }
+    const t0 = performance.now();
+    const run = (ts) => {
+      const p = Math.min(1, Math.max(0, (ts - t0) / 1100));
+      this.setState({ ip: 1 - Math.pow(1 - p, 3) });
+      if (p < 1) { this.raf4 = requestAnimationFrame(run); return; }
+      this.setState({ intro: 'out' });
+      this.introT = setTimeout(() => this.setState({ intro: 'gone' }), 1000);
+    };
+    this.raf4 = requestAnimationFrame(run);
+  }
+
+  rgb(hexIn) {
+    let hex = hexIn.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map((ch) => ch + ch).join('');
+    const n = parseInt(hex, 16);
+    return ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255);
+  }
+
+  renderVals() {
+    const th = this.theme();
+    const track = this.state.track;
+    const defs = [
+      { id: 'all', label: 'All' },
+      { id: 'fs', label: 'Full-stack' },
+      { id: 'ml', label: 'AI / ML' }
+    ];
+    const index = defs.findIndex((d) => d.id === track);
+    const pills = defs.map((d) => ({
+      label: d.label,
+      pressed: d.id === track ? 'true' : 'false',
+      color: d.id === track ? th.solid : th.muted,
+      pick: () => this.setState({ track: d.id })
+    }));
+    const cls = (tracks) => (track === 'all' || tracks.indexOf(track) !== -1) ? 'card' : 'card is-dim';
+    // Skills: tracks [] means core to both roles, always shown.
+    const sk = (list) => list.map(([name, tracks, where]) => ({
+      name: name,
+      where: where || '',
+      cls: (track === 'all' || tracks.length === 0 || tracks.indexOf(track) !== -1) ? 'skill' : 'skill is-off'
+    }));
+    const k = this.state.k || 0;
+    return {
+      t: th,
+      setField: this.setField,
+      setGrain: this.setGrain,
+      setRoot: this.setRoot,
+      setDot: this.setDot,
+      setRing: this.setRing,
+      setTrail: this.setTrail,
+      setHead: this.setHead,
+      setStats: this.setStats,
+      setHeat: this.setHeat,
+      skLang: sk([['Python', ['ml', 'fs'], 'EagleEye, CoE-DSAI'], ['TypeScript', ['fs', 'ml'], 'face-sort'], ['JavaScript', ['fs'], 'PeerCall'], ['SQL', ['fs', 'ml'], 'PeerCall'], ['C++', [], ''], ['C', [], ''], ['Bash', [], 'deploys'], ['R', ['ml'], '']]),
+      skWeb: sk([['FastAPI', ['fs', 'ml'], 'CoE-DSAI, face-sort'], ['React', ['fs'], 'PeerCall, face-sort'], ['Node.js', ['fs'], 'PeerCall'], ['Express', ['fs'], 'PeerCall'], ['REST APIs', ['fs'], 'PeerCall'], ['WebSockets', ['fs'], 'PeerCall'], ['WebRTC', ['fs'], 'PeerCall'], ['PostgreSQL', ['fs'], 'Supabase']]),
+      skMl: sk([['LangGraph', ['ml'], 'EagleEye'], ['ONNX Runtime', ['ml'], 'face-sort'], ['PyTorch', ['ml'], ''], ['TensorFlow', ['ml'], ''], ['Keras', ['ml'], ''], ['Transformers', ['ml'], ''], ['scikit-learn', ['ml'], '']]),
+      skOps: sk([['Docker', [], 'CoE-DSAI, face-sort'], ['Docker Compose', [], 'CoE-DSAI'], ['Azure', [], 'CoE-DSAI'], ['Linux', [], 'CoE-DSAI'], ['Git', [], '']]),
+      introCls: 'intro' + (this.state.intro === 'out' ? ' is-out' : this.state.intro === 'gone' ? ' is-out is-gone' : ''),
+      introBar: 'transform: scaleX(' + this.state.ip.toFixed(3) + ')',
+      introCount: String(Math.round(this.state.ip * 100)).padStart(3, '0'),
+      jobsCls: cls(['ml', 'fs']),
+      siteCls: cls(['fs']),
+      copyLabel: this.state.copied ? 'Copied' : 'Copy address',
+      copyMail: () => {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText('harshit24401@gmail.com').then(() => {
+          this.setState({ copied: true });
+          clearTimeout(this.copyT);
+          this.copyT = setTimeout(() => this.setState({ copied: false }), 1800);
+        }, () => {});
+      },
+      resumeName: track === 'ml' ? 'AI/ML' : track === 'fs' ? 'full-stack' : 'general',
+      magnetMove: this.magnetMove,
+      magnetLeave: this.magnetLeave,
+      magnet: 'transform: translate(' + this.state.mx.toFixed(1) + 'px, ' + this.state.my.toFixed(1) + 'px)',
+      pills: pills,
+      indicator: 'transform: translateX(' + (index * 116) + 'px)',
+      eagleClass: cls(['ml']),
+      faceClass: cls(['ml', 'fs']),
+      peerClass: cls(['fs'])
+    };
+  }
+}
+</script>
+</body>
+</html>
