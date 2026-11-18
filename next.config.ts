@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Tests set NEXT_DIST_DIR so their dev server doesn't share .next with yours.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   cacheComponents: true,
   partialPrefetching: true,
   // Album covers for the Spotify card.

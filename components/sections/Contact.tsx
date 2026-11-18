@@ -22,7 +22,7 @@ export function Contact() {
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3.5">
           <a
             href={`mailto:${site.email}`}
-            className="group inline-flex items-center gap-3 border-b border-rule-strong pb-1.5 text-[clamp(19px,1.8vw,23px)] text-ink no-underline [overflow-wrap:anywhere] transition-colors hover:border-accent hover:text-accent"
+            className="group inline-flex min-h-11 items-center gap-3 border-b border-rule-strong pb-1.5 text-[clamp(19px,1.8vw,23px)] text-ink no-underline [overflow-wrap:anywhere] transition-colors hover:border-accent hover:text-accent"
           >
             {site.email}
             <span className="flex-none transition-transform duration-300 ease-out group-hover:translate-x-1 motion-reduce:transition-none">

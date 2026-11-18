@@ -19,7 +19,7 @@ export function Header({ base = '' }: { base?: '' | '/' }) {
       className="focus-in flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-rule py-6"
       style={{ '--d': '400ms' } as React.CSSProperties}
     >
-      <a href={base || '#top'} className="font-serif text-[22px] text-ink no-underline">
+      <a href={base || '#top'} className="inline-flex min-h-11 items-center font-serif text-[22px] text-ink no-underline">
         {site.name}
       </a>
       <nav aria-label="Primary" className="flex flex-wrap gap-x-7 gap-y-1 text-[15px]">

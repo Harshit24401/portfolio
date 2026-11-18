@@ -46,3 +46,7 @@ next-env.d.ts
 # playwright
 /test-results/
 /playwright-report/
+
+# test dev server build output
+/.next-test/
+/.next-prod/
