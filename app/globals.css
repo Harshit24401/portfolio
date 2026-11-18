@@ -335,3 +335,208 @@
     color: var(--ink);
   }
 }
+
+/* =====================================================================
+   Motion (Task 9). One easing curve, one authored entrance per element.
+   --d is each element's own delay; --intro-offset is added on top when
+   the landing loader plays (Task 10 sets it on <html>), so the hero
+   entrances start under the lifting curtain.
+   Every animation is switched off under prefers-reduced-motion at the end.
+   ===================================================================== */
+
+@keyframes rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+@keyframes focusin {
+  from { opacity: 0; filter: blur(8px); transform: translateY(8px); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@keyframes draw {
+  to { transform: scaleX(1); }
+}
+@keyframes revealup {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes rankin {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(24%); }
+  to { clip-path: inset(0 0 0 0); transform: none; }
+}
+@keyframes inkline {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.2; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@keyframes pulse {
+  from { transform: scale(1); opacity: 0.55; }
+  to { transform: scale(2.8); opacity: 0; }
+}
+@keyframes nowring {
+  from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+  to { box-shadow: 0 0 0 9px transparent; }
+}
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+/* EagleEye: one change request walks the graph on a 6s loop. */
+@keyframes lit1 {
+  0%, 2% { border-color: var(--rule); box-shadow: none; }
+  5%, 16% { border-color: var(--ink); box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35); }
+  24%, 100% { border-color: var(--rule); box-shadow: none; }
+}
+@keyframes lit2 {
+  0%, 27% { border-color: var(--rule); box-shadow: none; }
+  31%, 44% { border-color: var(--ink); box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35); }
+  52%, 100% { border-color: var(--rule); box-shadow: none; }
+}
+@keyframes sig1 {
+  0%, 15% { transform: translateY(-4px); opacity: 0; }
+  17% { opacity: 1; }
+  26% { transform: translateY(24px); opacity: 1; }
+  28%, 100% { transform: translateY(24px); opacity: 0; }
+}
+@keyframes sig2 {
+  0%, 42% { transform: translateY(-4px); opacity: 0; }
+  44% { opacity: 1; }
+  53% { transform: translateY(24px); opacity: 1; }
+  55%, 100% { transform: translateY(24px); opacity: 0; }
+}
+@keyframes verdict {
+  0%, 54% { clip-path: inset(0 100% 0 0); }
+  66%, 92% { clip-path: inset(0 0 0 0); }
+  99%, 100% { clip-path: inset(0 0 0 100%); }
+}
+
+@layer components {
+  :root {
+    --intro-offset: 0ms;
+  }
+
+  /* Hero entrances */
+  .rise > span {
+    animation: rise 1000ms var(--ease-out) both;
+    animation-delay: calc(var(--d, 0ms) + var(--intro-offset));
+  }
+  .focus-in {
+    animation: focusin 800ms var(--ease-out) both;
+    animation-delay: calc(var(--d, 0ms) + var(--intro-offset));
+  }
+  .ink::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: draw 900ms var(--ease-out) both;
+    animation-delay: calc(1150ms + var(--intro-offset));
+  }
+
+  /* Pulsing dots */
+  .live::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--live);
+    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+  .steps li[data-state='now']::before {
+    animation: nowring 2.2s var(--ease-out) infinite;
+  }
+
+  /* Marquee: 52s loop, paused while hovered */
+  .marquee-track {
+    animation: marquee 52s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* EagleEye diagram loop */
+  .n1 { animation: lit1 6s var(--ease-out) infinite; }
+  .n2, .n3 { animation: lit2 6s var(--ease-out) infinite; }
+  .n3 { animation-delay: 120ms; }
+  .sig1 { animation: sig1 6s linear infinite; }
+  .sig2 { animation: sig2 6s linear infinite; }
+  .verdict-fill { animation: verdict 6s var(--ease-out) infinite; }
+
+  /* Scroll progress: a 2px accent bar scaled by page scroll (CSS only). */
+  .progress {
+    display: none;
+  }
+
+  /*
+    Scroll-driven reveals: animation-timeline: view() ties progress to the
+    element's position in the viewport, so no JavaScript runs while scrolling.
+    Browsers without it fall back to <RevealObserver> (IntersectionObserver).
+  */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: revealup linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+    .rank {
+      display: inline-block;
+      animation: rankin linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+    .poemline {
+      animation: inkline linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    .progress {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 2px;
+      z-index: 60;
+      background: var(--accent);
+      transform-origin: left;
+      animation: grow linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+  /* Fallback path: hidden only once JS has confirmed it can reveal them. */
+  @supports not (animation-timeline: view()) {
+    .reveal-js .reveal:not(.is-in) {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+    .reveal-js .reveal {
+      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise > span,
+    .focus-in,
+    .ink::after,
+    .live::after,
+    .steps li[data-state='now']::before,
+    .marquee-track,
+    .n1, .n2, .n3, .sig1, .sig2,
+    .verdict-fill,
+    .reveal,
+    .rank,
+    .poemline {
+      animation: none !important;
+    }
+    .ink::after {
+      transform: scaleX(1);
+    }
+    .verdict-fill {
+      clip-path: inset(0 0 0 0);
+    }
+    .progress {
+      display: none !important;
+    }
+    .reveal-js .reveal:not(.is-in) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

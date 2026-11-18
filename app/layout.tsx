@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
+import { RevealObserver } from '@/components/motion/RevealObserver';
 import { site } from '@/data/site';
 import './globals.css';
 
@@ -44,6 +45,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-screen">
         <JsonLd />
+        {/* Scroll progress bar: pure CSS (animation-timeline: scroll()). */}
+        <div className="progress" aria-hidden="true" />
+        <RevealObserver />
         {children}
       </body>
     </html>

@@ -7,7 +7,7 @@ export function Resume() {
     <section
       id="resume"
       aria-labelledby="resume-title"
-      className="mt-[clamp(88px,11vw,144px)] flex flex-wrap items-end justify-between gap-x-16 gap-y-10"
+      className="reveal mt-[clamp(88px,11vw,144px)] flex flex-wrap items-end justify-between gap-x-16 gap-y-10"
     >
       <h2
         id="resume-title"

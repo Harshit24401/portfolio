@@ -15,7 +15,10 @@ const NAV = [
  */
 export function Header({ base = '' }: { base?: '' | '/' }) {
   return (
-    <header className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-rule py-6">
+    <header
+      className="focus-in flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-rule py-6"
+      style={{ '--d': '400ms' } as React.CSSProperties}
+    >
       <a href={base || '#top'} className="font-serif text-[22px] text-ink no-underline">
         {site.name}
       </a>

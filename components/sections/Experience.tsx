@@ -9,7 +9,7 @@ export function Experience() {
       </h2>
       <div>
         {experience.map((job) => (
-          <article key={job.org} className="job">
+          <article key={job.org} className="job reveal">
             <div className="flex flex-col gap-1 font-mono text-[13px] text-muted">
               <span>{job.dates}</span>
               <span>{job.place}</span>

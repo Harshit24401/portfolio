@@ -19,7 +19,7 @@ export function Toolkit() {
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-x-10 gap-y-8">
         {skills.map((group) => (
-          <div key={group.title}>
+          <div key={group.title} className="reveal">
             <h3 className="m-0 mb-2 text-[15px] font-semibold">{group.title}</h3>
             {group.skills.map((s) => (
               <Dimmable key={s.name} as="div" tracks={s.tracks} offClass="is-off" className="skill">
