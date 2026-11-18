@@ -272,4 +272,35 @@
       transform: none;
     }
   }
+
+  /* Toolkit rows: slide on hover; is-off is set by <Dimmable> for other-track skills. */
+  .skill {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: padding-left 300ms var(--ease-out), color 200ms ease, opacity 400ms ease;
+  }
+  .skill:hover {
+    padding-left: 10px;
+    color: var(--accent);
+  }
+  .skill.is-off {
+    opacity: 0.3;
+  }
+  .skill small {
+    font: 12px var(--font-mono);
+    color: var(--muted);
+    text-align: right;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skill {
+      transition: opacity 200ms ease;
+    }
+    .skill:hover {
+      padding-left: 0;
+    }
+  }
 }

@@ -1,11 +1,14 @@
+import { Contact } from '@/components/sections/Contact';
 import { Experience } from '@/components/sections/Experience';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
 import { InTheWorks } from '@/components/sections/InTheWorks';
 import { Marquee } from '@/components/sections/Marquee';
+import { OffTheClock } from '@/components/sections/OffTheClock';
 import { Recognition } from '@/components/sections/Recognition';
+import { Resume } from '@/components/sections/Resume';
 import { SelectedWork } from '@/components/sections/SelectedWork';
-import { TrackFilter } from '@/components/track/TrackFilter';
+import { Toolkit } from '@/components/sections/Toolkit';
 import { TrackProvider } from '@/components/track/TrackProvider';
 
 const wrap = 'mx-auto max-w-[1200px] px-[clamp(16px,4vw,48px)]';
@@ -26,12 +29,10 @@ export default function Home() {
         <SelectedWork />
         <InTheWorks />
         <Recognition />
-        {/* Stubs: replaced by the real sections in Task 6. */}
-        <section id="writing" />
-        <section id="resume" className="pt-24">
-          <TrackFilter label="Résumé version" />
-        </section>
-        <footer id="contact" className="pb-24" />
+        <Toolkit />
+        <OffTheClock />
+        <Resume />
+        <Contact />
       </main>
     </TrackProvider>
   );
