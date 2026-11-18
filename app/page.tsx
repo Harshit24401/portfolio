@@ -11,6 +11,7 @@ import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Toolkit } from '@/components/sections/Toolkit';
 import { TrackProvider } from '@/components/track/TrackProvider';
 import { FlowField } from '@/components/motion/FlowField';
+import { Glitch } from '@/components/motion/Glitch';
 import { Intro } from '@/components/motion/Intro';
 
 const wrap = 'mx-auto max-w-[1200px] px-[clamp(16px,4vw,48px)]';
@@ -22,6 +23,7 @@ export default function Home() {
       <div className="hero-wrap relative isolate">
         <Intro />
         <FlowField />
+        <Glitch />
         <div className={`${wrap} relative z-[1]`}>
           <Header />
           <Hero />

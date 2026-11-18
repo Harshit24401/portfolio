@@ -33,3 +33,19 @@ d.dataset.intro='1';
 d.style.setProperty('--intro-offset','${INTRO.heroOffsetMs}ms');
 }catch(e){}})();`;
 }
+
+/** How long one headline glitch lasts. */
+export const GLITCH_MS = 420;
+
+/**
+ * When the headline glitches on its own: 2 or 3 times, the first just after the
+ * loader's curtain (1.8–3s), then 2.5–4.5s apart. After that, only on hover,
+ * so the effect never loops forever (spec §7.3, Harshit's choice).
+ * `rand` is injected so tests can pin the outcome.
+ */
+export function glitchSchedule(rand: () => number): number[] {
+  const n = rand() < 0.5 ? 2 : 3;
+  const out = [1800 + rand() * 1200];
+  while (out.length < n) out.push(out[out.length - 1] + 2500 + rand() * 2000);
+  return out;
+}

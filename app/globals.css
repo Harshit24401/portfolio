@@ -630,4 +630,134 @@
     mix-blend-mode: soft-light;
     opacity: 0.5;
   }
+
+  /* ---------- Cursor, magnetic button, headline glitch (Task 12) ---------- */
+  .cur {
+    display: none;
+  }
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button {
+    cursor: none;
+  }
+  .has-cursor .cur {
+    display: block;
+  }
+  .cur-dot,
+  .cur-ring {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 80;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .cur-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--ink);
+  }
+  .cur-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    box-sizing: border-box;
+    border: 1px solid var(--ink);
+    opacity: 0.5;
+    transition: width 320ms var(--ease-out), height 320ms var(--ease-out), margin 320ms var(--ease-out),
+      background-color 300ms ease, border-color 300ms ease, opacity 300ms ease;
+  }
+  .cur-ring.is-big {
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    opacity: 1;
+  }
+  .cur-ring.is-down {
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    opacity: 1;
+  }
+  .cur-trail {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 79;
+    pointer-events: none;
+  }
+
+  .magnetic {
+    transition: transform 380ms var(--ease-out);
+  }
+
+  /* Glitch: two copies of the word (from data-w) in accent and muted, sliced
+     with clip-path and nudged sideways for 420ms. */
+  .gw::before,
+  .gw::after {
+    content: attr(data-w);
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .gw::before {
+    color: var(--accent);
+  }
+  .gw::after {
+    color: var(--muted);
+  }
+  .gw:hover::before,
+  .gw.glitch::before {
+    animation: gl1 420ms steps(1) both;
+  }
+  .gw:hover::after,
+  .gw.glitch::after {
+    animation: gl2 420ms steps(1) both;
+  }
+  .gw:hover,
+  .gw.glitch {
+    animation: glshake 420ms steps(1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .magnetic {
+      transition: none;
+    }
+    .gw:hover,
+    .gw:hover::before,
+    .gw:hover::after,
+    .gw.glitch,
+    .gw.glitch::before,
+    .gw.glitch::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes gl1 {
+  0% { opacity: 1; transform: translate(-4px, 0); clip-path: inset(12% 0 58% 0); }
+  25% { transform: translate(3px, 0); clip-path: inset(62% 0 10% 0); }
+  50% { transform: translate(-2px, 0); clip-path: inset(34% 0 42% 0); }
+  75% { transform: translate(4px, 0); clip-path: inset(78% 0 4% 0); }
+  100% { opacity: 0; }
+}
+@keyframes gl2 {
+  0% { opacity: 1; transform: translate(4px, 0); clip-path: inset(64% 0 6% 0); }
+  25% { transform: translate(-3px, 0); clip-path: inset(8% 0 70% 0); }
+  50% { transform: translate(2px, 0); clip-path: inset(48% 0 30% 0); }
+  75% { transform: translate(-4px, 0); clip-path: inset(20% 0 64% 0); }
+  100% { opacity: 0; }
+}
+@keyframes glshake {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(1px); }
+  50% { transform: translateX(-1px) skewX(-4deg); }
+  75% { transform: translateX(1px); }
 }

@@ -1,5 +1,6 @@
 import { site } from '@/data/site';
 import { ArrowDown } from '@/components/ui/icons';
+import { Magnetic } from '@/components/motion/Magnetic';
 
 /** A word the headline glitch (Task 12) may pick. data-w feeds the CSS slice layers. */
 /** Per-element delay, read by the CSS motion rules as var(--d). */
@@ -52,12 +53,14 @@ export function Hero() {
       </p>
 
       <div className="focus-in flex flex-wrap items-center gap-x-4 gap-y-3" style={d(760)}>
-        <a
-          href="#resume"
-          className="inline-flex min-h-12 items-center gap-2.5 rounded-full bg-ink px-6 font-medium text-solid no-underline transition-colors hover:bg-accent hover:text-on-accent"
-        >
-          Download résumé <ArrowDown />
-        </a>
+        <Magnetic>
+          <a
+            href="#resume"
+            className="inline-flex min-h-12 items-center gap-2.5 rounded-full bg-ink px-6 font-medium text-solid no-underline transition-colors hover:bg-accent hover:text-on-accent"
+          >
+            Download résumé <ArrowDown />
+          </a>
+        </Magnetic>
         <a
           href="#contact"
           className="inline-flex min-h-12 items-center rounded-full border border-ink px-6 font-medium text-ink no-underline transition-colors hover:bg-ink hover:text-solid"

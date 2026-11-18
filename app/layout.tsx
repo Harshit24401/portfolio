@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
+import { Cursor } from '@/components/motion/Cursor';
 import { Grain } from '@/components/motion/Grain';
 import { RevealObserver } from '@/components/motion/RevealObserver';
 import { introBootScript } from '@/lib/intro';
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <div className="progress" aria-hidden="true" />
         <RevealObserver />
         <Grain />
+        <Cursor />
         {children}
       </body>
     </html>
