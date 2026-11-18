@@ -20,7 +20,7 @@ export function Marquee() {
     </div>
   );
   return (
-    <div className="marquee relative overflow-hidden border-y border-rule">
+    <div className="marquee relative z-[1] overflow-hidden border-y border-rule">
       <div className="marquee-track flex w-max">
         {row(false)}
         {row(true)}
