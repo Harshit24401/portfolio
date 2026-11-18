@@ -1,10 +1,11 @@
 import { expect, test } from './fixtures';
 
-test('sitemap lists home, writing and every case study', async ({ request }) => {
+test('sitemap lists home and every case study, not the hidden writing page', async ({ request }) => {
   const xml = await (await request.get('/sitemap.xml')).text();
-  for (const path of ['/', '/writing', '/work/eagleeye', '/work/face-sort', '/work/peercall']) {
+  for (const path of ['/', '/work/eagleeye', '/work/face-sort', '/work/peercall']) {
     expect(xml).toContain(`<loc>http://localhost:3000${path === '/' ? '' : path}</loc>`);
   }
+  expect(xml).not.toContain('/writing');
 });
 
 test('robots allows everything and points at the sitemap', async ({ request }) => {
@@ -50,6 +51,6 @@ test('each case study has a title naming the project', async ({ page }) => {
 });
 
 test('pages declare a canonical URL', async ({ page }) => {
-  await page.goto('/writing');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:3000/writing');
+  await page.goto('/work/peercall');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:3000/work/peercall');
 });

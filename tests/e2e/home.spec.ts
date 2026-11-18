@@ -24,7 +24,7 @@ test('every nav link points at a section that exists', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Primary' });
   const hrefs = await nav.getByRole('link').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(hrefs).toEqual(['#experience', '#work', '#writing', '#resume', '#contact']);
+  expect(hrefs).toEqual(['#experience', '#work', '#resume', '#contact']);
   for (const h of hrefs) await expect(page.locator(h!)).toHaveCount(1);
 });
 

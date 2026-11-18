@@ -12,8 +12,8 @@ test('home page survives with no Spotify credentials', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
-  await page.locator('#writing').scrollIntoViewIfNeeded();
+  await page.locator('#contact').scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
   expect(errors).toEqual([]);
-  await expect(page.locator('#writing')).toContainText('Joint Secretary');
+  await expect(page.locator('#contact')).toContainText('Hiring for');
 });

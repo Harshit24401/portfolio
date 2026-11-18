@@ -3,7 +3,6 @@ import { site } from '@/data/site';
 const NAV = [
   { href: '#experience', label: 'Experience' },
   { href: '#work', label: 'Work' },
-  { href: '#writing', label: 'Writing' },
   { href: '#resume', label: 'Résumé' },
   { href: '#contact', label: 'Contact' },
 ];

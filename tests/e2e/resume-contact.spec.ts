@@ -30,7 +30,11 @@ test('Toolkit dims full-stack-only skills under AI/ML', async ({ page }) => {
 
 test('three filters on the page stay in sync', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('group', { name: 'Filter skills by track' }).getByRole('button', { name: 'AI / ML' }).click();
+  // Retry until hydrated: a click that lands before React attaches handlers does nothing.
+  await expect(async () => {
+    await page.getByRole('group', { name: 'Filter skills by track' }).getByRole('button', { name: 'AI / ML' }).click();
+    await expect(page).toHaveURL(/track=ml/, { timeout: 500 });
+  }).toPass();
   for (const name of ['Filter work by track', 'Filter skills by track', 'Résumé version']) {
     await expect(page.getByRole('group', { name }).getByRole('button', { name: 'AI / ML' })).toHaveAttribute(
       'aria-pressed',
@@ -49,7 +53,22 @@ test('contact email is a modest mailto link with a copy button', async ({ page }
   await expect(page.locator('#contact').getByRole('button', { name: 'Copy address' })).toBeVisible();
 });
 
-test('Off the clock links to the full poems', async ({ page }) => {
+test('résumé heading is the Hamlet line', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#writing').getByRole('link', { name: /^Read / })).toHaveAttribute('href', '/writing');
+  const h = (await page.locator('#resume-title').innerText()).replace(/\s+/g, ' ').trim();
+  expect(h).toBe('To be, or not to be');
+});
+
+test('footer links to the public Spotify playlist', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#contact').getByRole('link', { name: 'Spotify' })).toHaveAttribute(
+    'href',
+    'https://open.spotify.com/playlist/1KhWrcQqRsMrtWIZH0jdAN',
+  );
+});
+
+test('Off the clock is hidden for now', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#writing')).toHaveCount(0);
+  await expect(page.getByText('Off the clock')).toHaveCount(0);
 });

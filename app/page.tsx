@@ -4,7 +4,6 @@ import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
 import { InTheWorks } from '@/components/sections/InTheWorks';
 import { Marquee } from '@/components/sections/Marquee';
-import { OffTheClock } from '@/components/sections/OffTheClock';
 import { Recognition } from '@/components/sections/Recognition';
 import { Resume } from '@/components/sections/Resume';
 import { SelectedWork } from '@/components/sections/SelectedWork';
@@ -36,7 +35,6 @@ export default function Home() {
         <InTheWorks />
         <Recognition />
         <Toolkit />
-        <OffTheClock />
         <Resume />
         <Contact />
       </main>

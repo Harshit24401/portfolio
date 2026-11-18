@@ -34,11 +34,11 @@ test.describe('reduced motion', () => {
 
   test('nothing animates and everything is fully visible', async ({ page }) => {
     await page.goto('/');
-    for (const sel of ['.rise > span', '.marquee-track', '.reveal', '.focus-in', '.verdict-fill', '.rank', '.poemline']) {
+    for (const sel of ['.rise > span', '.marquee-track', '.reveal', '.focus-in', '.verdict-fill', '.rank']) {
       expect(await anim(page, sel), sel).toBe('none');
     }
     const opacities = await page
-      .locator('.rise > span, .reveal, .focus-in, .poemline')
+      .locator('.rise > span, .reveal, .focus-in')
       .evaluateAll((els) => els.map((e) => getComputedStyle(e).opacity));
     expect(opacities.every((o) => o === '1')).toBe(true);
     await expect(page.locator('.progress')).toBeHidden();

@@ -18,13 +18,9 @@ test('EagleEye has no public links and shows its private note', async ({ page })
   await expect(e.getByRole('link', { name: /case study/i })).toHaveAttribute('href', '/work/eagleeye');
 });
 
-test('a project with no live URL renders no Live demo link', async ({ page }) => {
+test('no Live demo buttons for now', async ({ page }) => {
   await page.goto('/');
-  await expect(card(page, 'face-sort').getByRole('link', { name: /Live demo/ })).toHaveCount(0);
-  await expect(card(page, 'PeerCall').getByRole('link', { name: /Live demo/ })).toHaveAttribute(
-    'href',
-    'https://video-chat-ruddy-kappa.vercel.app',
-  );
+  await expect(page.getByRole('link', { name: /Live demo/ })).toHaveCount(0);
 });
 
 test('"Everything else is on GitHub" goes to the profile', async ({ page }) => {
@@ -33,6 +29,13 @@ test('"Everything else is on GitHub" goes to the profile', async ({ page }) => {
     'href',
     'https://github.com/Harshit24401',
   );
+});
+
+test('In the works shows only the job-hunt project for now', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#next [data-card]')).toHaveCount(1);
+  await expect(page.getByText('This site', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('[Next project]')).toHaveCount(0);
 });
 
 test('job-hunt card: one current step, no GitHub link yet', async ({ page }) => {

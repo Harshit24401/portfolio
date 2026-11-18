@@ -51,6 +51,14 @@ describe('data files', () => {
     expect(skills.flatMap((g) => g.skills).find((s) => s.name === 'LangGraph')?.where).toBe('EagleEye');
   });
 
+  test('only the job-hunt project is in the works for now', () => {
+    expect(wip.map((w) => w.id)).toEqual(['job-hunt']);
+  });
+
+  test('no project shows a live demo for now', async () => {
+    expect((await getProjects()).every((p) => p.links.live === null)).toBe(true);
+  });
+
   test('job-hunt card has exactly one current milestone and no link yet', () => {
     const job = wip.find((w) => w.id === 'job-hunt')!;
     expect(job.milestones.filter((m) => m.state === 'now').map((m) => m.label)).toEqual(['Read replies']);

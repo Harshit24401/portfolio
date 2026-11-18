@@ -43,6 +43,11 @@ export function Contact() {
           <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" className={link}>
             LinkedIn
           </a>
+          {site.spotifyPlaylist && (
+            <a href={site.spotifyPlaylist} target="_blank" rel="noopener noreferrer" className={link}>
+              Spotify
+            </a>
+          )}
           <a href="#resume" className={link}>
             Résumé
           </a>

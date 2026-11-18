@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
-const PAGES = ['/', '/work/eagleeye', '/writing'];
+const PAGES = ['/', '/work/eagleeye'];
 const WIDTHS = [360, 768, 1280, 1440];
 
 for (const path of PAGES) {
@@ -51,18 +51,17 @@ test('keyboard order from the top: nav, résumé, email, then the first filter',
       }),
     );
   }
-  expect(seen.slice(0, 8)).toEqual([
+  expect(seen.slice(0, 7)).toEqual([
     'Harshit Arora',
     'Experience',
     'Work',
-    'Writing',
     'Résumé',
     'Contact',
     'Download résumé',
     'Email me',
   ]);
-  // After the hero, the next stop is in Selected work: the EagleEye case study link or the first filter.
-  expect(seen.slice(8)).toContainEqual(expect.stringMatching(/^(All|Read the case study)$/));
+  // After the hero, the next stop is in Selected work: the first filter or the EagleEye case study link.
+  expect(seen.slice(7)).toContainEqual(expect.stringMatching(/^(All|Read the case study)$/));
 });
 
 test('focus is always visible', async ({ page }) => {

@@ -16,7 +16,7 @@ export const site = {
     github: 'https://github.com/Harshit24401',
     linkedin: 'https://www.linkedin.com/in/harshit-arora-here',
   },
-  spotifyPlaylist: null as string | null,
+  spotifyPlaylist: 'https://open.spotify.com/playlist/1KhWrcQqRsMrtWIZH0jdAN' as string | null,
   resumeUpdated: 'Nov 2026',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
 } as const;

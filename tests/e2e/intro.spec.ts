@@ -26,7 +26,7 @@ test('hero entrances are offset to start under the curtain', async ({ page }) =>
 });
 
 test('other pages never show the loader', async ({ page }) => {
-  await page.goto('/writing');
+  await page.goto('/work/face-sort');
   await page.waitForTimeout(300);
   await expect(page.locator('.intro')).toHaveCount(0);
 });

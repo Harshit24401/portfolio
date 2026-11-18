@@ -1,6 +1,8 @@
 import { type Wip, WipSchema } from '@/lib/schemas';
 
 // Update a milestone's state here to move a progress track forward.
+// 'This site' and the '[Next project]' placeholder are removed for now; add
+// entries back here when there's something to show.
 export const wip: Wip[] = WipSchema.array().parse([
   {
     id: 'job-hunt',
@@ -21,35 +23,5 @@ export const wip: Wip[] = WipSchema.array().parse([
     ],
     link: null,
     size: 'lg',
-  },
-  {
-    id: 'this-site',
-    title: 'This site',
-    tracks: ['fs'],
-    status: 'building',
-    summary: 'Next.js, TypeScript and MDX, with the ink flow-field up top. Designed in the open, then built from the design doc.',
-    stack: ['Next.js', 'TypeScript', 'Tailwind', 'MDX'],
-    milestones: [
-      { label: 'Design', state: 'done' },
-      { label: 'Build', state: 'now' },
-      { label: 'Ship', state: 'todo' },
-    ],
-    link: null,
-    size: 'sm',
-  },
-  {
-    id: 'up-next',
-    title: '[Next project]',
-    tracks: [],
-    status: 'next',
-    summary: '[One line on what it will do, and for whom.]',
-    stack: [],
-    milestones: [
-      { label: 'Scope', state: 'todo' },
-      { label: 'Prototype', state: 'todo' },
-      { label: 'Ship', state: 'todo' },
-    ],
-    link: null,
-    size: 'sm',
   },
 ]);

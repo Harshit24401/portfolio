@@ -13,9 +13,9 @@ export function Resume() {
         id="resume-title"
         className="m-0 flex-[1_1_420px] font-serif text-[clamp(44px,6vw,84px)] leading-[1.02] font-normal tracking-[-0.025em]"
       >
-        One page,
+        To be,
         <br />
-        <span className="text-accent italic">the whole story.</span>
+        <span className="text-accent italic">or not to be</span>
       </h2>
       <div className="flex min-w-0 flex-[1_1_360px] flex-col gap-5">
         <p className="m-0 text-muted">Pick the version written for the role you&apos;re hiring for.</p>
