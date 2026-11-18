@@ -7,10 +7,10 @@ test('home has title and dark ground', async ({ page }) => {
   expect(bg).toBe('rgb(14, 14, 14)');
 });
 
-test('hero headline reads as one sentence', async ({ page }) => {
+test('hero headline is Engineer Dreamer Reader', async ({ page }) => {
   await page.goto('/');
   const h1 = (await page.locator('h1').innerText()).replace(/\s+/g, ' ').trim();
-  expect(h1).toBe('I build products end to end — from the model to the button.');
+  expect(h1).toBe('Engineer Dreamer Reader.');
 });
 
 test('hero has both calls to action and the availability line', async ({ page }) => {
@@ -59,5 +59,5 @@ test('marquee has every item, and its loop copy is hidden from screen readers', 
 test('glitchable headline words carry data-w', async ({ page }) => {
   await page.goto('/');
   const words = await page.locator('h1 [data-w]').evaluateAll((els) => els.map((e) => e.getAttribute('data-w')));
-  expect(words).toEqual(['build', 'products', 'end', 'end', 'model', 'button.']);
+  expect(words).toEqual(['Engineer', 'Dreamer', 'Reader.']);
 });

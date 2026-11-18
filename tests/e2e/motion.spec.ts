@@ -17,9 +17,9 @@ test.describe('with motion', () => {
   test('hero line delays stack on the intro offset', async ({ page }) => {
     await page.goto('/');
     const delays = await page
-      .locator('.rise > span')
+      .locator('h1 .rise > span')
       .evaluateAll((els) => els.map((e) => getComputedStyle(e).animationDelay));
-    expect(delays).toEqual(['0.08s', '0.17s', '0.26s', '0.35s']);
+    expect(delays).toEqual(['0.08s', '0.17s', '0.26s']);
   });
 
   test('marquee pauses on hover', async ({ page }) => {

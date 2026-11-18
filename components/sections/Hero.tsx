@@ -20,27 +20,21 @@ const W = ({ children }: { children: string }) => (
 export function Hero() {
   return (
     <section id="top" className="flex flex-col gap-8 py-[clamp(56px,9vw,112px)]">
-      <h1 className="m-0 max-w-[14ch] font-serif text-[clamp(46px,6.4vw,92px)] leading-[1.02] font-normal tracking-[-0.025em]">
+      <h1 className="m-0 font-serif text-[clamp(54px,8.4vw,124px)] leading-[0.98] font-normal tracking-[-0.03em]">
         <span className="rise">
           <span style={d(80)}>
-            I <W>build</W> <W>products</W>
+            <W>Engineer</W>
           </span>
         </span>{' '}
         <span className="rise">
           <span style={d(170)}>
-            <W>end</W> to <W>end</W> —
+            <W>Dreamer</W>
           </span>
         </span>{' '}
         <span className="rise">
           <span className="text-accent italic" style={d(260)}>
-            from the <W>model</W>
-          </span>
-        </span>{' '}
-        <span className="rise">
-          <span className="text-accent italic" style={d(350)}>
-            to{' '}
             <span className="ink">
-              the <W>button.</W>
+              <W>Reader.</W>
             </span>
           </span>
         </span>

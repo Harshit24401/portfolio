@@ -6,8 +6,8 @@ export const contentType = 'image/png';
 
 export default function Image() {
   return ogCard({
-    title: 'I build products end to end',
-    accent: 'from the model to the button.',
+    title: 'Engineer Dreamer',
+    accent: 'Reader.',
     footer: 'Harshit Arora · Full-stack & AI/ML',
   });
 }

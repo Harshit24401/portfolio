@@ -44,7 +44,7 @@ test.describe('JavaScript off', () => {
   test.use({ javaScriptEnabled: false });
   test('hero is readable and nothing covers it', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toContainText('I build products');
+    await expect(page.locator('h1')).toContainText('Engineer');
     await expect(page.locator('.intro')).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.dataset.intro)).toBeUndefined();
   });
