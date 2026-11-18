@@ -11,3 +11,6 @@ export const ArrowDown = ({ size = 16 }: P) => (
 export const ArrowUpRight = ({ size = 12 }: P) => (
   <svg width={size} height={size} viewBox="0 0 16 16" strokeWidth={1.6} {...base}><path d="M5 11l6-6M6 5h5v5" /></svg>
 );
+export const ArrowLeft = ({ size = 16 }: P) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" strokeWidth={1.5} {...base}><path d="M13 8H3M7 4L3 8l4 4" /></svg>
+);

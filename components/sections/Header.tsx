@@ -8,16 +8,20 @@ const NAV = [
   { href: '#contact', label: 'Contact' },
 ];
 
-/** Not sticky (spec §7.2): it scrolls away with the hero. */
-export function Header() {
+/**
+ * Not sticky (spec §7.2): it scrolls away with the hero.
+ * On the home page links are plain #anchors; subpages pass base="/" so they
+ * jump back to the home page's sections.
+ */
+export function Header({ base = '' }: { base?: '' | '/' }) {
   return (
     <header className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-rule py-6">
-      <a href="#top" className="font-serif text-[22px] text-ink no-underline">
+      <a href={base || '#top'} className="font-serif text-[22px] text-ink no-underline">
         {site.name}
       </a>
       <nav aria-label="Primary" className="flex flex-wrap gap-x-7 gap-y-1 text-[15px]">
         {NAV.map((n) => (
-          <a key={n.href} href={n.href} className="py-3 text-muted no-underline transition-colors hover:text-ink">
+          <a key={n.href} href={base + n.href} className="py-3 text-muted no-underline transition-colors hover:text-ink">
             {n.label}
           </a>
         ))}
