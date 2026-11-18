@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 const card = (page: import('@playwright/test').Page, name: string) =>
   page.locator('[data-card]').filter({ has: page.getByRole('heading', { name, exact: true }) });

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 test('?track=foo renders All selected, no error, clean URL', async ({ page }) => {
   const errors: string[] = [];

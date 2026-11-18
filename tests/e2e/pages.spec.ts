@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 const SECTIONS = ['Problem / context', 'What I built', 'How it works', 'Results or aim', "What I'd do next", 'Links'];
 

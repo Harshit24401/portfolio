@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
 import { RevealObserver } from '@/components/motion/RevealObserver';
+import { introBootScript } from '@/lib/intro';
 import { site } from '@/data/site';
 import './globals.css';
 
@@ -39,10 +40,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
+    // suppressHydrationWarning: the boot script below may add data-intro and a
+    // style to <html> before React hydrates; that difference is intended.
     <html
+      suppressHydrationWarning
       lang="en"
       className={`${newsreader.variable} ${inter.variable} ${jetbrains.variable} antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introBootScript() }} />
+      </head>
       <body className="min-h-screen">
         <JsonLd />
         {/* Scroll progress bar: pure CSS (animation-timeline: scroll()). */}

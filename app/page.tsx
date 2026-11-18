@@ -10,6 +10,7 @@ import { Resume } from '@/components/sections/Resume';
 import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Toolkit } from '@/components/sections/Toolkit';
 import { TrackProvider } from '@/components/track/TrackProvider';
+import { Intro } from '@/components/motion/Intro';
 
 const wrap = 'mx-auto max-w-[1200px] px-[clamp(16px,4vw,48px)]';
 
@@ -17,7 +18,8 @@ export default function Home() {
   return (
     <TrackProvider>
       {/* Hero wrapper: Task 10's loader and Task 11's flow-field sit inside it. */}
-      <div className="relative isolate">
+      <div className="hero-wrap relative isolate">
+        <Intro />
         <div className={wrap}>
           <Header />
           <Hero />

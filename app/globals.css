@@ -539,4 +539,73 @@
       transform: none;
     }
   }
+
+  /* ---------- Landing loader (Task 10) ---------- */
+
+  /* Pre-cover: set by the <head> boot script before first paint, removed when <Intro> mounts. */
+  html[data-intro='1'] .hero-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: var(--solid);
+  }
+  .intro {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(16px, 4vw, 48px);
+    background: var(--solid);
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 950ms var(--ease-curtain);
+  }
+  .intro.is-out {
+    clip-path: inset(0 0 100% 0);
+  }
+  .intro-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .intro-name {
+    font-family: var(--font-serif);
+    font-size: clamp(52px, 8vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .intro-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .intro-line {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    overflow: hidden;
+    background: var(--rule);
+  }
+  .intro-line i {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .intro-count {
+    font: 500 14px var(--font-mono);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .intro,
+    html[data-intro='1'] .hero-wrap::after {
+      display: none;
+    }
+  }
 }

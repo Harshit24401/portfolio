@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 test('sitemap lists home, writing and every case study', async ({ request }) => {
   const xml = await (await request.get('/sitemap.xml')).text();

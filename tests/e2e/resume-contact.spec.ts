@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 test('AI/ML track picks the AI/ML résumé for download and view', async ({ page }) => {
   await page.goto('/?track=ml');

@@ -1,4 +1,5 @@
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, test } from './fixtures';
 
 const anim = (page: Page, sel: string) =>
   page.locator(sel).first().evaluate((e) => getComputedStyle(e).animationName);
