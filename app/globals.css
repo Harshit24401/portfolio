@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
+/*
+  Night palette — the only theme (spec §6).
+  Raw values live on :root so plain CSS (and later, canvases) can read them.
+  @theme inline then maps them to Tailwind utilities, e.g. bg-surface,
+  text-muted, border-rule, text-accent.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0e0e0e;
+  --bg-glow: radial-gradient(1000px 700px at 85% -10%, #161c26 0%, rgba(22, 28, 38, 0) 62%);
+  --solid: #0e0e0e;
+  --ink: #eceae6;
+  --muted: #a6a6a8;
+  --rule: rgba(236, 234, 230, 0.12);
+  --rule-strong: rgba(236, 234, 230, 0.28);
+  --surface: #141516;
+  --surface2: #1b1c1e;
+  --accent: #9cc2ff;
+  --on-accent: #08111f;
+  --live: #2f7d4f;
+
+  /* One easing curve for everything; the loader curtain is the only exception. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--bg);
+  --color-solid: var(--solid);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-live: var(--live);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Font variables come from next/font in app/layout.tsx. */
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-out: var(--ease-out);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* The glow is a layer over the solid ground, so the computed background-color stays #0e0e0e. */
+  background: var(--bg-glow), var(--bg);
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
