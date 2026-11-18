@@ -4,8 +4,10 @@ import { JsonLd } from '@/components/JsonLd';
 import { Cursor } from '@/components/motion/Cursor';
 import { Grain } from '@/components/motion/Grain';
 import { RevealObserver } from '@/components/motion/RevealObserver';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { introBootScript } from '@/lib/intro';
 import { site } from '@/data/site';
+import 'lenis/dist/lenis.css';
 import './globals.css';
 
 // next/font downloads these at build time and serves them from our own domain,
@@ -59,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <RevealObserver />
         <Grain />
         <Cursor />
+        <SmoothScroll />
         {children}
       </body>
     </html>
