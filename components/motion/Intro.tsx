@@ -35,10 +35,19 @@ export function Intro() {
     let lift: ReturnType<typeof setTimeout> | undefined;
     let done: ReturnType<typeof setTimeout> | undefined;
     // rAF's timestamp counts from navigation start, the same clock the CSS hero
-    // delays run on. Measuring from it (not from when React mounted) keeps the
-    // curtain and the hero entrances in step even if hydration is slow.
+    // delays run on, so the curtain and the hero entrances stay in step.
+    // If hydration was slow and we mount late, don't skip the loader: carry on
+    // from where the clock says we are (at most 60%) and take at least 500ms more.
+    let t0 = -1;
+    let p0 = 0;
+    let span: number = INTRO.countMs;
     const tick = (ts: number) => {
-      const p = Math.min(1, ts / INTRO.countMs);
+      if (t0 < 0) {
+        t0 = ts;
+        p0 = Math.min(0.6, ts / INTRO.countMs);
+        span = Math.max(500, INTRO.countMs - ts);
+      }
+      const p = Math.min(1, p0 + (1 - p0) * ((ts - t0) / span));
       const e = 1 - Math.pow(1 - p, 3); // ease-out cubic
       if (bar.current) bar.current.style.transform = `scaleX(${e})`;
       if (count.current) count.current.textContent = String(Math.round(e * 100)).padStart(3, '0');
