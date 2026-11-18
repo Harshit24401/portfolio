@@ -6,6 +6,7 @@ import { getPoem, getPoems } from '@/lib/content';
 export const metadata: Metadata = {
   title: 'Writing — Harshit Arora',
   description: 'Poems, mostly in English.',
+  alternates: { canonical: '/writing' },
 };
 
 export default async function Writing() {

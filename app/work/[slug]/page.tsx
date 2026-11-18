@@ -25,7 +25,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = await getProject((await params).slug);
-  return p ? { title: `${p.meta.title} — Harshit Arora`, description: p.meta.summary } : {};
+  return p
+    ? {
+        title: `${p.meta.title} — Harshit Arora`,
+        description: p.meta.summary,
+        alternates: { canonical: `/work/${p.meta.slug}` },
+      }
+    : {};
 }
 
 export default async function CaseStudy({ params }: Props) {
