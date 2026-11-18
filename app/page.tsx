@@ -1,7 +1,10 @@
 import { Experience } from '@/components/sections/Experience';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
+import { InTheWorks } from '@/components/sections/InTheWorks';
 import { Marquee } from '@/components/sections/Marquee';
+import { Recognition } from '@/components/sections/Recognition';
+import { SelectedWork } from '@/components/sections/SelectedWork';
 import { TrackFilter } from '@/components/track/TrackFilter';
 import { TrackProvider } from '@/components/track/TrackProvider';
 
@@ -20,10 +23,10 @@ export default function Home() {
       </div>
       <main className={wrap}>
         <Experience />
-        {/* Stubs: replaced by the real sections in Tasks 5 and 6. */}
-        <section id="work" className="pt-24">
-          <TrackFilter label="Filter work by track" />
-        </section>
+        <SelectedWork />
+        <InTheWorks />
+        <Recognition />
+        {/* Stubs: replaced by the real sections in Task 6. */}
         <section id="writing" />
         <section id="resume" className="pt-24">
           <TrackFilter label="Résumé version" />

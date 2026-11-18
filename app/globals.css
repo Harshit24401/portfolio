@@ -160,4 +160,116 @@
     border-color: var(--accent);
     color: var(--ink);
   }
+
+  /* Cards: surface panel; .is-dim is set by <Dimmable> when the track filter excludes it. */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    transition: opacity 450ms var(--ease-out), filter 450ms ease, transform 450ms var(--ease-out),
+      border-color 200ms ease, box-shadow 400ms ease;
+  }
+  .card:hover {
+    border-color: var(--ink);
+    box-shadow: 0 24px 46px -30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+  }
+  .card.is-dim {
+    opacity: 0.28;
+    filter: grayscale(1) blur(1.5px);
+    transform: scale(0.985);
+    pointer-events: none;
+  }
+  .card-dashed {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--rule-strong);
+  }
+
+  /* EagleEye diagram wiring (animated in Task 9). */
+  .wire {
+    position: relative;
+    height: 28px;
+    margin-left: 24px;
+    border-left: 1px solid var(--rule-strong);
+  }
+  .sig {
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+  }
+
+  /* Milestone track. */
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+  }
+  .steps li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 16px;
+    color: var(--muted);
+  }
+  .steps li::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+  }
+  .steps li[data-state='done'] {
+    color: var(--ink);
+  }
+  .steps li[data-state='done']::before {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .steps li[data-state='now'] {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .steps li[data-state='now']::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* Award tiles lift on hover; the rank word turns accent. */
+  .award,
+  .award-lead {
+    transition: transform 400ms var(--ease-out), border-color 200ms ease;
+  }
+  .award:hover,
+  .award-lead:hover {
+    transform: translateY(-3px);
+    border-color: var(--ink);
+  }
+  .award .rank {
+    transition: color 250ms ease;
+  }
+  .award:hover .rank {
+    color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .card:hover,
+    .card.is-dim,
+    .award,
+    .award:hover,
+    .award-lead:hover {
+      transform: none;
+    }
+  }
 }

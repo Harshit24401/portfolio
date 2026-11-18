@@ -6,6 +6,13 @@ import { type Poem, PoemSchema, type Project, ProjectSchema } from './schemas';
 
 const CONTENT = path.join(process.cwd(), 'content');
 
+/*
+  cacheComponents is on (next.config.ts), so Next treats any un-cached async work
+  as request-time data. Content files only change when we redeploy, so each loader
+  is marked 'use cache': its result is computed at build time and the page stays
+  fully static.
+*/
+
 type Entry<T> = { meta: T; body: string };
 
 /** Split frontmatter from body and validate it; errors name the file so they're easy to find. */
@@ -29,6 +36,7 @@ async function loadDir<T>(dir: string, parse: (file: string, raw: string) => Ent
 
 /** All projects, featured first, then by year (newest first). */
 export async function getProjects(): Promise<Project[]> {
+  'use cache';
   const entries = await loadDir('projects', parseProject);
   const slugs = entries.map((e) => e.meta.slug);
   const dupe = slugs.find((s, i) => slugs.indexOf(s) !== i);
@@ -39,13 +47,16 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function getProject(slug: string): Promise<Entry<Project> | null> {
+  'use cache';
   return (await loadDir('projects', parseProject)).find((e) => e.meta.slug === slug) ?? null;
 }
 
 export async function getPoems(): Promise<Poem[]> {
+  'use cache';
   return (await loadDir('poems', parsePoem)).map((e) => e.meta).sort((a, b) => a.order - b.order);
 }
 
 export async function getPoem(slug: string): Promise<Entry<Poem> | null> {
+  'use cache';
   return (await loadDir('poems', parsePoem)).find((e) => e.meta.slug === slug) ?? null;
 }
