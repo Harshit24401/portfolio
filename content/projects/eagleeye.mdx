@@ -5,7 +5,7 @@ org: Optum
 year: "2026"
 tracks: [ml]
 summary: A LangGraph agent that checks each change request against its user stories and GitHub checks before approval.
-stack: [Python, LangGraph, Rally, GitHub]
+stack: [Python, LangGraph, Flask, Azure OpenAI, Qdrant, Oracle, Docker, Kubernetes]
 links: { live: null, github: null }
 featured: true
 privateNote: Internal to Optum, so the code is private.
@@ -13,24 +13,60 @@ privateNote: Internal to Optum, so the code is private.
 
 ## Problem / context
 
-[Who had the problem, and what it cost them. Two or three sentences.]
+Every production deployment at Optum goes through a change request: a form describing what's changing, why, how it was tested and how to roll it back. Reviewers had to check by hand that the form, the user story, the technical spec, the test evidence and the code all told the same story. They often didn't. Gaps showed up late, in review or after release, and each one cost engineer time. The cost was highest during release windows, when volumes spike.
+
+I built EagleEye during Optum's 10-week Technology Development Program internship: an agentic review layer that checks a change request before a human reviewer ever opens it.
 
 ## What I built
 
-[The thing itself, in plain words. What a user sees and does.]
+A developer submits the change request through EagleEye's form. EagleEye gathers everything related to that change from the systems where it really lives, instead of trusting what was typed: the user story in Rally, the technical spec, the test evidence, and the GitHub repository and branches. It then runs a group of specialised agents over that context. Each agent checks one thing and returns a score, its reasons and recommendations:
+
+- **Change intelligence:** do the form and the user story agree, and is anything missing or contradictory?
+- **Incident intelligence:** have changes like this one caused incidents before?
+- **Tech spec:** does the technical specification actually cover what the requirement asks for? This uses retrieval over the document, with evidence quoted from it.
+- **Performance validation:** is there enough performance testing for the expected production load?
+- **Security onboarding:** is the repository really onboarded to the required security tooling, and if not, is the exception justified?
+- **Job validation:** is every batch job in the change registered and monitored before it goes live?
+- **Deployment risk:** do the earlier signals add up to an acceptable risk?
+- **Deployment rollback:** find the last known-good container image from CI history, so a rollback is one step instead of an investigation.
+
+A summary step combines the agents' results into a weighted quality score, a risk level, prioritised recommendations and an AI code review of the diff. The developer and the production team get it by email.
+
+[Your part: which agents, layers or pieces you built yourself]
 
 ## How it works
 
-[The architecture in a short paragraph, plus one diagram.]
+<Pipeline
+  steps={[
+    'Change request submitted through the EagleEye form',
+    'Route by change type: infrastructure and password changes skip validation (with an email); vulnerability and automation changes take a lighter path',
+    'Data collection: form, Rally user story, tech spec, test docs, Git repo and branches',
+    'Agentic layer: selected agents run in groups (LangGraph)',
+    'Combination layer: weighted quality score, risk level, recommendations, AI code review',
+    'Report emailed to the developer and the production team',
+  ]}
+  caption="One change request, from submission to report."
+/>
+
+**Orchestration.** The agents are nodes in a LangGraph graph, so groups of independent checks run together, and a failure in one agent is contained instead of breaking the run.
+
+**Grounded, not guessed.** The checks read from the source systems, not only from what the developer typed. The tech-spec agent embeds the document, retrieves the passages relevant to each requirement, and quotes them as evidence. A finding says exactly where the spec does or doesn't cover something.
+
+**Explainable by design.** Every score comes with its reasons, so a reviewer can see why a change passed or what to fix, not just a number. Critical gaps are highlighted before the change reaches production review.
+
+**Stack.** Python, Flask and LangGraph. Azure OpenAI for reasoning and `text-embedding-3-small` for embeddings, with Qdrant as the vector store. Oracle for data. RAGAS to evaluate the retrieval. Deployed with Docker and Helm on Kubernetes.
 
 ## Results or aim
 
-[Real numbers only: tests, latency, users, defects caught. If it's an aim, say so.]
+- In production by week 8 of the internship, supporting the Production Services team's deployment reviews, and refined from their feedback.
+- Aimed at catching about 60 post-deployment defects a year, roughly 120 engineer-hours.
+- Reviews start with complete, consistent information, and the same validation standard applies whoever the reviewer is.
+- 1st place in India and Ireland, and 2nd globally, at Optum's Technology Development Program intern Shark Tank.
 
 ## What I'd do next
 
-[One or two honest next steps.]
+[One or two things you'd improve or extend]
 
 ## Links
 
-[Repo, demo, write-ups. Leave out anything private.]
+The code and internal documents are private to Optum.

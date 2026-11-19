@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
+import { PlaylistPlayer } from '@/components/PlaylistPlayer';
 import { Cursor } from '@/components/motion/Cursor';
+import { FlowField } from '@/components/motion/FlowField';
 import { Grain } from '@/components/motion/Grain';
 import { RevealObserver } from '@/components/motion/RevealObserver';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
@@ -56,6 +58,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       </head>
       <body className="min-h-screen">
         <JsonLd />
+        {/* Behind everything, on every page (z-index -1, fixed to the viewport). */}
+        <FlowField />
         {/* Scroll progress bar: pure CSS (animation-timeline: scroll()). */}
         <div className="progress" aria-hidden="true" />
         <RevealObserver />
@@ -63,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Cursor />
         <SmoothScroll />
         {children}
+        <PlaylistPlayer />
       </body>
     </html>
   );

@@ -6,10 +6,11 @@ import { fieldAngle, hexToRgb, particleCount, strandAlpha, swirl } from '@/lib/f
 type Strand = { x: number; y: number; age: number; life: number };
 
 /**
- * Ink flow-field behind the hero.
+ * Ink flow-field behind the whole site: a fixed, viewport-sized canvas, so the
+ * field stays with you as you scroll and costs the same on a long page as a short one.
  * - Transparent canvas: old strokes are faded with 'destination-out', which
  *   erases toward transparent instead of painting the background colour over them.
- * - Runs only while the hero is on screen and the tab is visible.
+ * - Pauses while the tab is hidden.
  * - Reduced motion: draws a settled static frame once, then stops.
  */
 export function FlowField() {

@@ -156,9 +156,11 @@
     color: var(--muted);
     transition: border-color 200ms ease, color 200ms ease;
   }
-  .tag:hover {
-    border-color: var(--accent);
-    color: var(--ink);
+  @media (hover: hover) {
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+    }
   }
 
   /* Cards: surface panel; .is-dim is set by <Dimmable> when the track filter excludes it. */
@@ -169,10 +171,12 @@
     transition: opacity 450ms var(--ease-out), filter 450ms ease, transform 450ms var(--ease-out),
       border-color 200ms ease, box-shadow 400ms ease;
   }
-  .card:hover {
-    border-color: var(--ink);
-    box-shadow: 0 24px 46px -30px rgba(0, 0, 0, 0.4);
-    transform: translateY(-3px);
+  @media (hover: hover) {
+    .card:hover {
+      border-color: var(--ink);
+      box-shadow: 0 24px 46px -30px rgba(0, 0, 0, 0.4);
+      transform: translateY(-3px);
+    }
   }
   .card.is-dim {
     opacity: 0.28;
@@ -245,21 +249,27 @@
     border-color: var(--accent);
   }
 
-  /* Award tiles lift on hover; the rank word turns accent. */
+  /* Award tiles lift on hover; the rank word turns accent.
+     All hand-written hover styles sit inside @media (hover: hover) so a tap on a
+     touch screen doesn't leave them stuck on (Tailwind's hover: does the same). */
   .award,
   .award-lead {
     transition: transform 400ms var(--ease-out), border-color 200ms ease;
   }
-  .award:hover,
-  .award-lead:hover {
-    transform: translateY(-3px);
-    border-color: var(--ink);
+  @media (hover: hover) {
+    .award:hover,
+    .award-lead:hover {
+      transform: translateY(-3px);
+      border-color: var(--ink);
+    }
   }
   .award .rank {
     transition: color 250ms ease;
   }
-  .award:hover .rank {
-    color: var(--accent);
+  @media (hover: hover) {
+    .award:hover .rank {
+      color: var(--accent);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -283,9 +293,11 @@
     border-bottom: 1px solid var(--rule);
     transition: padding-left 300ms var(--ease-out), color 200ms ease, opacity 400ms ease;
   }
-  .skill:hover {
-    padding-left: 10px;
-    color: var(--accent);
+  @media (hover: hover) {
+    .skill:hover {
+      padding-left: 10px;
+      color: var(--accent);
+    }
   }
   .skill.is-off {
     opacity: 0.3;
@@ -449,8 +461,10 @@
   .marquee-track {
     animation: marquee 52s linear infinite;
   }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
+  @media (hover: hover) {
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
   }
 
   /* EagleEye diagram loop */
@@ -611,14 +625,14 @@
 
   /* ---------- Canvases (Task 11) ---------- */
   .field {
-    position: absolute;
+    /* Fixed to the viewport behind all content. z-index -1 paints it above the
+       page background but below every element, so nothing else needs a z-index. */
+    position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
-    /* Fade the strands out toward the bottom of the hero. */
-    mask-image: linear-gradient(to bottom, #000 72%, transparent);
   }
   .grain {
     position: fixed;
@@ -713,17 +727,23 @@
   .gw::after {
     color: var(--muted);
   }
-  .gw:hover::before,
-  .gw.glitch::before {
-    animation: gl1 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover::before,
+    .gw.glitch::before {
+      animation: gl1 420ms steps(1) both;
+    }
   }
-  .gw:hover::after,
-  .gw.glitch::after {
-    animation: gl2 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover::after,
+    .gw.glitch::after {
+      animation: gl2 420ms steps(1) both;
+    }
   }
-  .gw:hover,
-  .gw.glitch {
-    animation: glshake 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover,
+    .gw.glitch {
+      animation: glshake 420ms steps(1) both;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -760,8 +780,10 @@
   25% { transform: translateX(1px); }
   50% { transform: translateX(-1px) skewX(-4deg); }
   75% { transform: translateX(1px); }
+}
 
-  /* Spotify equaliser bars. */
+@layer components {
+  /* Spotify equaliser bars (Spotify card and the playlist button). */
   .eq {
     display: flex;
     gap: 3px;
@@ -790,3 +812,134 @@
   from { transform: scaleY(0.2); }
   to { transform: scaleY(1); }
 }
+
+@layer components {
+  /* ---------- Playlist player ---------- */
+  .player {
+    position: fixed;
+    right: clamp(16px, 3vw, 32px);
+    bottom: clamp(16px, 3vw, 32px);
+    z-index: 70;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    max-width: calc(100vw - 32px);
+  }
+  .player-panel {
+    width: min(380px, calc(100vw - 32px));
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+    animation: playerin 400ms var(--ease-out) both;
+  }
+  .player-panel[hidden] {
+    display: none;
+  }
+  .player-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(8px);
+    color: var(--ink);
+    font: 500 14px var(--font-sans);
+    cursor: pointer;
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+  @media (hover: hover) {
+    .player-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+  /* Equaliser bars stand still until the player is open. */
+  .eq.eq-still i {
+    animation: none;
+    transform: scaleY(0.45);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .player-panel {
+      animation: none;
+    }
+  }
+}
+
+@keyframes playerin {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@layer components {
+  /* Case-study pipeline diagram: boxes joined by a hairline with an accent dot. */
+  .pipeline-fig {
+    margin: 1.6em 0 2em;
+  }
+  .pipeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    max-width: 460px;
+  }
+  .pipeline li {
+    position: relative;
+    padding: 12px 16px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    background: var(--surface);
+    font: 13px/1.5 var(--font-mono);
+    color: var(--ink);
+  }
+  .pipeline li + li {
+    margin-top: 26px;
+  }
+  .pipeline li + li::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: -27px;
+    height: 26px;
+    border-left: 1px solid var(--rule-strong);
+  }
+  .pipeline li + li::after {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: -8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .pipeline-fig figcaption {
+    margin-top: 14px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .prose ul,
+  .prose ol:not(.pipeline) {
+    margin: 0 0 1em;
+    padding-left: 1.2em;
+    color: var(--muted);
+  }
+  .prose li {
+    margin: 0.3em 0;
+  }
+  .prose strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose code {
+    font: 0.88em var(--font-mono);
+    color: var(--ink);
+  }
+}
+
