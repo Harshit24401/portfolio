@@ -156,9 +156,11 @@
     color: var(--muted);
     transition: border-color 200ms ease, color 200ms ease;
   }
-  .tag:hover {
-    border-color: var(--accent);
-    color: var(--ink);
+  @media (hover: hover) {
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+    }
   }
 
   /* Cards: surface panel; .is-dim is set by <Dimmable> when the track filter excludes it. */
@@ -169,10 +171,12 @@
     transition: opacity 450ms var(--ease-out), filter 450ms ease, transform 450ms var(--ease-out),
       border-color 200ms ease, box-shadow 400ms ease;
   }
-  .card:hover {
-    border-color: var(--ink);
-    box-shadow: 0 24px 46px -30px rgba(0, 0, 0, 0.4);
-    transform: translateY(-3px);
+  @media (hover: hover) {
+    .card:hover {
+      border-color: var(--ink);
+      box-shadow: 0 24px 46px -30px rgba(0, 0, 0, 0.4);
+      transform: translateY(-3px);
+    }
   }
   .card.is-dim {
     opacity: 0.28;
@@ -245,21 +249,27 @@
     border-color: var(--accent);
   }
 
-  /* Award tiles lift on hover; the rank word turns accent. */
+  /* Award tiles lift on hover; the rank word turns accent.
+     All hand-written hover styles sit inside @media (hover: hover) so a tap on a
+     touch screen doesn't leave them stuck on (Tailwind's hover: does the same). */
   .award,
   .award-lead {
     transition: transform 400ms var(--ease-out), border-color 200ms ease;
   }
-  .award:hover,
-  .award-lead:hover {
-    transform: translateY(-3px);
-    border-color: var(--ink);
+  @media (hover: hover) {
+    .award:hover,
+    .award-lead:hover {
+      transform: translateY(-3px);
+      border-color: var(--ink);
+    }
   }
   .award .rank {
     transition: color 250ms ease;
   }
-  .award:hover .rank {
-    color: var(--accent);
+  @media (hover: hover) {
+    .award:hover .rank {
+      color: var(--accent);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -283,9 +293,11 @@
     border-bottom: 1px solid var(--rule);
     transition: padding-left 300ms var(--ease-out), color 200ms ease, opacity 400ms ease;
   }
-  .skill:hover {
-    padding-left: 10px;
-    color: var(--accent);
+  @media (hover: hover) {
+    .skill:hover {
+      padding-left: 10px;
+      color: var(--accent);
+    }
   }
   .skill.is-off {
     opacity: 0.3;
@@ -449,8 +461,10 @@
   .marquee-track {
     animation: marquee 52s linear infinite;
   }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
+  @media (hover: hover) {
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
   }
 
   /* EagleEye diagram loop */
@@ -713,17 +727,23 @@
   .gw::after {
     color: var(--muted);
   }
-  .gw:hover::before,
-  .gw.glitch::before {
-    animation: gl1 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover::before,
+    .gw.glitch::before {
+      animation: gl1 420ms steps(1) both;
+    }
   }
-  .gw:hover::after,
-  .gw.glitch::after {
-    animation: gl2 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover::after,
+    .gw.glitch::after {
+      animation: gl2 420ms steps(1) both;
+    }
   }
-  .gw:hover,
-  .gw.glitch {
-    animation: glshake 420ms steps(1) both;
+  @media (hover: hover) {
+    .gw:hover,
+    .gw.glitch {
+      animation: glshake 420ms steps(1) both;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
