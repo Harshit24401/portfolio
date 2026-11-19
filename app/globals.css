@@ -873,3 +873,73 @@
   from { opacity: 0; transform: translateY(12px) scale(0.98); }
   to { opacity: 1; transform: none; }
 }
+
+@layer components {
+  /* Case-study pipeline diagram: boxes joined by a hairline with an accent dot. */
+  .pipeline-fig {
+    margin: 1.6em 0 2em;
+  }
+  .pipeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    max-width: 460px;
+  }
+  .pipeline li {
+    position: relative;
+    padding: 12px 16px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    background: var(--surface);
+    font: 13px/1.5 var(--font-mono);
+    color: var(--ink);
+  }
+  .pipeline li + li {
+    margin-top: 26px;
+  }
+  .pipeline li + li::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: -27px;
+    height: 26px;
+    border-left: 1px solid var(--rule-strong);
+  }
+  .pipeline li + li::after {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: -8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .pipeline-fig figcaption {
+    margin-top: 14px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .prose ul,
+  .prose ol:not(.pipeline) {
+    margin: 0 0 1em;
+    padding-left: 1.2em;
+    color: var(--muted);
+  }
+  .prose li {
+    margin: 0.3em 0;
+  }
+  .prose strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose code {
+    font: 0.88em var(--font-mono);
+    color: var(--ink);
+  }
+}
+

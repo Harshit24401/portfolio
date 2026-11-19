@@ -5,31 +5,58 @@ org: Personal
 year: "2026"
 tracks: [ml, fs]
 summary: Groups a photo library by person entirely in the browser. No photo, face or embedding leaves the device.
-stack: [TypeScript, ONNX Runtime Web, Web Workers, FastAPI]
-links: { live: null, github: null }
+stack: [TypeScript, React, ONNX Runtime Web, Web Workers, IndexedDB, FastAPI, Docker, Caddy]
+links: { live: null, github: "https://github.com/Harshit24401/face-sort-fde" }
 featured: false
 ---
 
 ## Problem / context
 
-[Who had the problem, and what it cost them. Two or three sentences.]
+Sorting a photo library by person usually means uploading every photo to someone's server, and with it every face in it. I wanted the useful part, "show me all the photos of this person", without that trade. The rule I set was strict: photos, face crops, embeddings and the names people type must never leave the device. That's a property anyone can check by opening DevTools and watching the Network tab.
 
 ## What I built
 
-[The thing itself, in plain words. What a user sees and does.]
+A public website with nothing to install. You pick a folder, and the page finds every face, groups the faces into people, and shows a grid with one thumbnail and a photo count per person. Clicking a person shows all their photos. You can rename, merge and hide people, and those corrections survive the next scan.
+
+The server only serves static files. It has no API routes, no database and no accounts, so there's nothing on it that could receive your photos even by mistake.
 
 ## How it works
 
-[The architecture in a short paragraph, plus one diagram.]
+<Pipeline
+  steps={[
+    'Pick a folder (File System Access API, with a fallback for Firefox and Safari)',
+    'Web Worker: decode the image',
+    'Detect faces: SCRFD, with non-maximum suppression',
+    'Align each face to 112 × 112 (similarity transform onto the ArcFace template)',
+    'Embed: MobileFaceNet → 512 numbers, L2-normalised',
+    'Cluster: agglomerative, average linkage on cosine distance',
+    'Apply your corrections (rename, merge, hide)',
+    'Store everything in IndexedDB on your device',
+  ]}
+  caption="One photo's path through face-sort. Every step runs in your browser."
+/>
+
+**Models in the browser.** Detection and recognition use InsightFace's small `buffalo_s` models through ONNX Runtime Web, on multi-threaded WebAssembly. Multi-threading needs `SharedArrayBuffer`, which browsers only allow on cross-origin-isolated pages, so the server sends the COOP and COEP headers that unlock it. I tried WebGPU first. Creating a WebGPU session could hang instead of failing, which also blocked the fallback, and WebAssembly already ran these two small models in tens of milliseconds per photo. So WebAssembly is the only backend.
+
+**Keeping the page responsive.** The whole pipeline runs in a Web Worker and hands images across as transferable objects instead of copying them. You can keep scrolling and clicking during a scan of hundreds of photos.
+
+**Grouping without knowing how many people.** k-means needs the number of clusters up front, and here that's exactly what you don't know. Agglomerative clustering with average linkage keeps merging the closest groups until the closest pair is farther apart than a threshold. I picked the threshold by labelling about 50 faces by hand and comparing the values on either side of it. The clustering is a pure function, so it has unit tests built from small made-up vectors where the right answer is obvious.
+
+**Corrections that survive a re-scan.** Clusters are recomputed on every scan, so cluster numbers change. Corrections are stored as rules keyed by face ids, such as "the cluster containing face A and the one containing face B are the same person". They're re-applied after every clustering run.
+
+**Privacy you can check.** The Content-Security-Policy sets `connect-src 'self'`, so even a bug can't send data to another host. A "Delete all local data" button empties IndexedDB.
 
 ## Results or aim
 
-[Real numbers only: tests, latency, users, defects caught. If it's an aim, say so.]
+- The full detect → align → embed → cluster pipeline runs client-side for libraries of up to about 1,000 photos.
+- A second scan of an unchanged folder runs no model inference at all. Stable photo ids let it skip everything already processed.
+- Shipped as two containers with Docker Compose: Caddy for HTTPS in front of a FastAPI app serving the built frontend. The image is pushed to ECR and runs on EC2.
 
 ## What I'd do next
 
-[One or two honest next steps.]
+- Swap the models before any commercial use. InsightFace's pretrained weights are licensed for non-commercial research only, and the `FaceEngine` interface keeps that swap to one module.
+- Add the corrections v1 left out: moving a single face between people, and splitting a cluster.
 
 ## Links
 
-[Repo, demo, write-ups. Leave out anything private.]
+- Source: [github.com/Harshit24401/face-sort-fde](https://github.com/Harshit24401/face-sort-fde)
