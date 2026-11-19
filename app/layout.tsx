@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
+import { PlaylistPlayer } from '@/components/PlaylistPlayer';
 import { Cursor } from '@/components/motion/Cursor';
 import { FlowField } from '@/components/motion/FlowField';
 import { Grain } from '@/components/motion/Grain';
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Cursor />
         <SmoothScroll />
         {children}
+        <PlaylistPlayer />
       </body>
     </html>
   );
