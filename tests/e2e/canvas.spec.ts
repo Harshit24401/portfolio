@@ -3,19 +3,33 @@ import { expect, test } from './fixtures';
 const frames = (page: import('@playwright/test').Page) =>
   page.evaluate(() => (window as unknown as { __fieldFrames?: number }).__fieldFrames ?? 0);
 
-test('flow-field animates while the hero is on screen and pauses when it is not', async ({ page }) => {
+test('flow-field sits behind the whole page and keeps flowing as you scroll', async ({ page }) => {
   await page.goto('/');
   const canvas = page.locator('canvas.field');
   await expect(canvas).toHaveCount(1);
+  expect(await canvas.evaluate((e) => getComputedStyle(e).position)).toBe('fixed');
+  await page.evaluate(() => scrollTo(0, document.body.scrollHeight / 2));
+  await page.waitForTimeout(200);
   const a = await frames(page);
   await page.waitForTimeout(400);
   expect(await frames(page)).toBeGreaterThan(a + 5);
+});
 
-  await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(300);
-  const b = await frames(page);
-  await page.waitForTimeout(400);
-  expect(await frames(page)).toBe(b);
+test('flow-field is on case study pages too', async ({ page }) => {
+  await page.goto('/work/face-sort');
+  await expect(page.locator('canvas.field')).toHaveCount(1);
+});
+
+test('content stays above the field and clickable', async ({ page }) => {
+  await page.goto('/');
+  const btn = page.locator('#resume').getByRole('link', { name: /Download/ });
+  await btn.scrollIntoViewIfNeeded();
+  const box = (await btn.boundingBox())!;
+  const hit = await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('a')?.textContent ?? '', [
+    box.x + box.width / 2,
+    box.y + box.height / 2,
+  ]);
+  expect(hit).toContain('Download');
 });
 
 test('grain overlay covers the viewport and ignores the pointer', async ({ page }) => {

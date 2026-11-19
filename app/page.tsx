@@ -9,7 +9,6 @@ import { Resume } from '@/components/sections/Resume';
 import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Toolkit } from '@/components/sections/Toolkit';
 import { TrackProvider } from '@/components/track/TrackProvider';
-import { FlowField } from '@/components/motion/FlowField';
 import { Glitch } from '@/components/motion/Glitch';
 import { Intro } from '@/components/motion/Intro';
 
@@ -21,7 +20,6 @@ export default function Home() {
       {/* Hero wrapper: Task 10's loader and Task 11's flow-field sit inside it. */}
       <div className="hero-wrap relative isolate">
         <Intro />
-        <FlowField />
         <Glitch />
         <div className={`${wrap} relative z-[1]`}>
           <Header />

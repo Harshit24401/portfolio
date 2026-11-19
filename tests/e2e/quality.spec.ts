@@ -30,7 +30,16 @@ for (const path of PAGES) {
 
   test(`${path} has no serious or critical axe violations`, async ({ page }) => {
     await page.goto(path);
-    await page.waitForTimeout(300);
+    // Let one-off entrance animations finish: mid-fade, text is semi-transparent
+    // and axe would measure a contrast that no visitor actually sees.
+    await page.evaluate(() =>
+      Promise.all(
+        document
+          .getAnimations()
+          .filter((a) => a.timeline === document.timeline && a.effect?.getTiming().iterations !== Infinity)
+          .map((a) => a.finished.catch(() => {})),
+      ),
+    );
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     const bad = violations
       .filter((v) => v.impact === 'serious' || v.impact === 'critical')
